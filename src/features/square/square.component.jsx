@@ -15,7 +15,10 @@ export const Square_Visibility = {
     viSibleFalse: "visibleFalse"
 }
 
-
+let originalStyles = {};
+let pathedStyles = {
+  backgroundColor: "red"
+}
 
 const squareInfo = {
   id: 0,
@@ -23,32 +26,26 @@ const squareInfo = {
 };
 
 
-export const Square = ({square}) => {
+export const Square = ({square,pathed}) => {
   const {id} = square;
-  // const [paths,setGamePaths] = useState([]);
   const dispatch = useDispatch();
   const isClearMode = useSelector(selectIsClearMode);
   const isPlayMode = useSelector(selectIsPlayMode);
-  // const openPaths = useSelector(selectOpenPaths);
+  const openPaths = useSelector(selectOpenPaths);
   const sqrVisibility = square.visibility;
   let gamePaths = useSelector(selectGamePaths);
-  // const pathLength = gamePaths.length;
 
   const setSomething=(e)=>{
         if(isClearMode&&!isPlayMode){
           const newObj = {...square, visibility: Square_Visibility.viSibleFalse}
           dispatch(setNotVisible(newObj));
         }
-        //selectpath
-        if (isClearMode&&isPlayMode&&gamePaths.length<1){
+        if (isClearMode&&isPlayMode&&gamePaths.length<1&&!openPaths.includes(id)){
           dispatch(setGamePaths(id));
         }
-        if (isClearMode&&isPlayMode&&gamePaths.length===1&&id!==gamePaths[0]){
-
-          // const Paths = [gamePaths[0],id];
+        if (isClearMode&&isPlayMode&&!openPaths.includes(id)&&gamePaths.length===1&&id!==gamePaths[0]){
           dispatch(setGamePaths(id));
           dispatch({type:"Saga/SetBlockedPaths&&CalGame"});          
-        //  const blockedPaths =  getBlockedPaths(Game_Board,openPaths,Paths);
         }
   }
   
@@ -56,6 +53,8 @@ export const Square = ({square}) => {
     <>
 <div  className ={ (sqrVisibility==="visibleFalse" && isClearMode=== true )?
 `${styles.visibleFalse} ${styles.Game_Board_Square}`: styles.Game_Board_Square}
+
+style ={pathed?pathedStyles:originalStyles}
 onClick={setSomething}>{id}</div>
        
     </>

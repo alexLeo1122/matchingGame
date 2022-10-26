@@ -9,24 +9,22 @@ import { selectIsPlayMode, toggleIsPlayMode } from './features/playmode/isPlayMo
 import { size } from './utils/shortTestPath.js';
 
 import styles from "./App.module.css"
+import { selectResultPath } from './features/game-contents/gamecontents.slice.js';
 
 
 
 function App() {
   const dispatch = useDispatch();
-  const squareArr = [];
-  for (let i=0; i<size;i++){
-    let squareObj = new SquareCons(i,Square_Visibility.viSibleTrue)
-    squareArr.push(squareObj);
-  }
   const board = useSelector(selectBoard);
+  const resultPath = useSelector(selectResultPath);
+  //control section
   const isClearMode = useSelector(selectIsClearMode);
-  const isPlayMode = useSelector(selectIsPlayMode);
+  const isPlayMode = useSelector(selectIsPlayMode);  
 
-
-
+  
+  
+  //handling functions
   const toggleClearMode=()=>{
-
    dispatch(toggleIsClearMode());
   }
   const togglePlayMode=()=>{
@@ -34,10 +32,21 @@ function App() {
   }
 
 
-
+  
   useEffect(()=>{
+    const squareArr = [];
+    for (let i=0; i<size;i++){
+      let squareObj = new SquareCons(i,Square_Visibility.viSibleTrue)
+      squareArr.push(squareObj);
+    }
     dispatch(setBoard(squareArr));
   },[])
+  // useEffect(()=>{
+
+
+  // },[resultPath])
+
+
 return (
     <Fragment>
     <div className={styles.GameUI}>
@@ -53,8 +62,16 @@ return (
 
       <div className={styles.Game_Board} >
         {
+          
           board.map((square,index) =>{
-            return <Square key={index} square={square}/>
+          //  if(!resultPath){ return <Square key={index} square={square}/>}
+          //  else if (resultPath.inclues(index)){
+          //   return  <Square key={index} square={square } pathed={true}/>
+          //  } else 
+
+           return (resultPath&&resultPath.includes(index))? <Square key={index} square={square } pathed={true}/>:
+           <Square key={index} square={square} pathed={false}/>         
+
           })
         }
       </div>

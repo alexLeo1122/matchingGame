@@ -16,5 +16,10 @@
 }
 
 .visibleFalse {
-  opacity: 0.2;
+  background: rgba(209, 167, 167, 0.73);
+  border: 1px solid rgb(233, 221, 216);
+}
+
+.check {
+  background-color: yellow;
 }
