@@ -1,0 +1,20 @@
+:root {
+  --squareSize: 70px;
+  --white: #ffffff;
+}
+
+.Game_Board_Square {
+  width: var(--squareSize);
+  height: var(--squareSize);
+  border: 1px solid rgb(201, 73, 13);
+  margin: 0 auto;
+  background: rgb(226 134 134 / 73%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3700d4;
+}
+
+.visibleFalse {
+  opacity: 0.2;
+}
