@@ -16,10 +16,36 @@
 }
 
 .visibleFalse {
-  background: rgba(209, 167, 167, 0.73);
+  background: rgb(228 199 199 / 73%);
   border: 1px solid rgb(233, 221, 216);
 }
 
 .check {
   background-color: yellow;
+}
+
+.pathed {
+  animation-name: successPath;
+  animation-duration: 2s;
+}
+
+.selected {
+  background-color: rgba(236, 69, 69, 0.73);
+  animation-name: selectedMotion;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes successPath {
+  from {
+    border: 10px solid green;
+  }
+  to {
+    background-color: rgb(228 199 199 / 85%);
+  }
+}
+@keyframes selectedMotion {
+  to {
+    transform: rotateY(360deg);
+  }
 }

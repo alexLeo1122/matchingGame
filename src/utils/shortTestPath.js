@@ -242,7 +242,7 @@ pathArr.forEach(ele => {
 return shortestPath;
 } 
 let short = findShortestPath(successPath);
-console.log({short})
+// console.log({short})
 
 
 

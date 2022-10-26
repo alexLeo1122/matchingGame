@@ -19,10 +19,11 @@ export const gameContentsSlice = createSlice({
     },
     setResultFailed: (state)=>{
         state.resultPath.isSucceed= false;
+        state.gamePaths = [];
     },
     setResultSucceed: (state,action)=>{
        state.resultPath.isSucceed = true;
-       state.resultPath.path = action.payload;
+       state.resultPath.path = action.payload;      
     }
 
   },

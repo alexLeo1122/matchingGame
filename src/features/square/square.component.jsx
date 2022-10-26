@@ -32,18 +32,27 @@ export const Square = ({square,pathed}) => {
   const isClearMode = useSelector(selectIsClearMode);
   const isPlayMode = useSelector(selectIsPlayMode);
   const openPaths = useSelector(selectOpenPaths);
+  
+  
   const sqrVisibility = square.visibility;
   let gamePaths = useSelector(selectGamePaths);
-
-  const setSomething=(e)=>{
+  const [selected,setSelected] = useState(false);
+  if(gamePaths.length<1 &&selected===true){
+    console.log("checkcheckcheck")
+    setSelected(false)
+  }
+  const runGameLogic=(e)=>{
         if(isClearMode&&!isPlayMode){
           const newObj = {...square, visibility: Square_Visibility.viSibleFalse}
           dispatch(setNotVisible(newObj));
         }
         if (isClearMode&&isPlayMode&&gamePaths.length<1&&!openPaths.includes(id)){
           dispatch(setGamePaths(id));
+          // setSelected(true);
+          if (selected){setSelected(false)}else{setSelected(true)}
         }
         if (isClearMode&&isPlayMode&&!openPaths.includes(id)&&gamePaths.length===1&&id!==gamePaths[0]){
+          if (selected){setSelected(false)}
           dispatch(setGamePaths(id));
           dispatch({type:"Saga/SetBlockedPaths&&CalGame"});          
         }
@@ -51,12 +60,17 @@ export const Square = ({square,pathed}) => {
   
   return (
     <>
-<div  className ={ (sqrVisibility==="visibleFalse" && isClearMode=== true )?
-`${styles.visibleFalse} ${styles.Game_Board_Square}`: styles.Game_Board_Square}
-
-style ={pathed?pathedStyles:originalStyles}
-onClick={setSomething}>{id}</div>
-       
+    { (!pathed)?
+          <div  className ={ (sqrVisibility==="visibleFalse" && isClearMode=== true )?
+          `${styles.visibleFalse} ${styles.Game_Board_Square}`:
+           ((selected&&gamePaths.length===1)? `${styles.Game_Board_Square} ${styles.selected}`:`${styles.Game_Board_Square}`)}
+          onClick={runGameLogic}>{id}</div>:
+//check if the square belongs to successPath
+          <div  className ={ (isClearMode=== true )?
+          `${styles.visibleFalse} ${styles.Game_Board_Square} ${styles.pathed}`: 
+          styles.Game_Board_Square}
+          onClick={runGameLogic}>{id}</div>          
+        }
     </>
   );
 };
