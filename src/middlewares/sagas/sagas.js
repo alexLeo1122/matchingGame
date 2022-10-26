@@ -1,15 +1,18 @@
 import { all, takeEvery,put,call, select } from "@redux-saga/core/effects";
 import { store } from "../../app/store";
-import { selectOpenPaths } from "../../features/board/board.slice";
+import { selectOpenPaths, setNotVisible } from "../../features/board/board.slice";
 import { selectGamePaths, setResultFailed, setResultSucceed } from "../../features/game-contents/gamecontents.slice";
 import { Game_Board } from "../../utils/shortTestPath";
 import { getBlockedPaths, PathObj, Status, findShortestPath,checkRange,nextUp, nextDown, nextLeft, nextRight, } from "../../utils/shortTestPath";
 import { setBlockedPaths } from "../../features/game-contents/gamecontents.slice";
+import { SquareCons } from "../../utils/func.utils";
+import { Square_Visibility } from "../../features/square/square.component";
 
-let pendingPaths = []; let successPaths = []; let shortestPath = [];
 
 export  function* gameCalWorker(){
+  let pendingPaths = []; let successPaths = []; 
   const openPaths = yield select(selectOpenPaths);
+
     const gamePaths = yield select(selectGamePaths);
     console.log("gamePaths",gamePaths)
     const basedBlockedPaths = getBlockedPaths(Game_Board,openPaths,gamePaths)
@@ -68,6 +71,12 @@ export  function* gameCalWorker(){
     if (successPaths.length>=1){
       const resultPath = findShortestPath(successPaths);  
       yield put(setResultSucceed(resultPath));
+      const newOpenObj_0 = new SquareCons(gamePaths[0],Square_Visibility.viSibleFalse);
+      const newOpenObj_1 = new SquareCons(gamePaths[1],Square_Visibility.viSibleFalse);
+
+      yield put(setNotVisible(newOpenObj_0));
+      yield put(setNotVisible(newOpenObj_1));
+
     } else {
       yield put(setResultFailed());
     }

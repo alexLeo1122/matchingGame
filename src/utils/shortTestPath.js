@@ -1,3 +1,7 @@
+import { concatArrs } from "./func.utils";
+
+
+
 export const Status = {
   Up: "Up",
   Down: "Down",
@@ -141,6 +145,14 @@ for(let i =0;i<boardSize.column;i++){downFalse.push(i+boardSize.column*(boardSiz
 let leftFalse=[]; let rightFalse=[];
 for (let i = 0;i<boardSize.row;i++){leftFalse.push(i*boardSize.column)}; 
 for (let i = 0;i<boardSize.row;i++){rightFalse.push(i*boardSize.column+(boardSize.column-1))}; 
+
+
+//cal basedOpenPath
+let path1 = concatArrs(upFalse,rightFalse); let path2 = concatArrs(path1,downFalse);
+
+export const basedOpenPaths = concatArrs(path2, leftFalse);
+
+
 
 export function PathObj(patharr, count, prev) {
   this.path = patharr;

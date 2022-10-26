@@ -24,13 +24,32 @@ export const gameContentsSlice = createSlice({
     setResultSucceed: (state,action)=>{
        state.resultPath.isSucceed = true;
        state.resultPath.path = action.payload;      
-    }
+    },
+    setGameContinue: (state)=>{
+      // state = {
+      //     gamePaths: [],
+      //     blockedPaths: [],
+      //     resultPath: {
+      //       path: null,
+      //       isSucceed: null
+      //     }
+      //   }
+      state.gamePaths=[];
+      state.blockedPaths=[];
+      state.resultPath={
+        path:null,isSucceed:null
+      }
+    }  
+
+
+
+
 
   },
 });
 
 //action creators
-export const { setGamePaths, setBlockedPaths, setResultFailed, setResultSucceed } = gameContentsSlice.actions;
+export const { setGamePaths, setBlockedPaths, setResultFailed, setResultSucceed, setGameContinue } = gameContentsSlice.actions;
 
 
 //selectors

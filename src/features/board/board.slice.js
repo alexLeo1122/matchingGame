@@ -1,6 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { act } from 'react-dom/test-utils';
-// import { act } from 'react-dom/test-utils';
 
 export const boardSlice = createSlice({
   name: 'board',

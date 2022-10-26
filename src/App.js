@@ -10,7 +10,7 @@ import { size } from './utils/shortTestPath.js';
 
 import styles from "./App.module.css"
 import { selectResultPath } from './features/game-contents/gamecontents.slice.js';
-
+import {basedOpenPaths} from "../src/utils/shortTestPath"
 
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
   //control section
   const isClearMode = useSelector(selectIsClearMode);
   const isPlayMode = useSelector(selectIsPlayMode);  
-
+  console.log({basedOpenPaths})
   
   
   //handling functions
@@ -41,11 +41,6 @@ function App() {
     }
     dispatch(setBoard(squareArr));
   },[])
-  // useEffect(()=>{
-
-
-  // },[resultPath])
-
 
 return (
     <Fragment>
@@ -57,21 +52,12 @@ return (
         <button 
         className={isPlayMode===true?styles.Clear_Mode: styles.Clear_Button}
         onClick={togglePlayMode}>Play Mode</button>
-
       </div>
-
       <div className={styles.Game_Board} >
         {
-          
           board.map((square,index) =>{
-          //  if(!resultPath){ return <Square key={index} square={square}/>}
-          //  else if (resultPath.inclues(index)){
-          //   return  <Square key={index} square={square } pathed={true}/>
-          //  } else 
-
            return (resultPath&&resultPath.includes(index))? <Square key={index} square={square } pathed={true}/>:
-           <Square key={index} square={square} pathed={false}/>         
-
+           <Square key={index} square={square} pathed={false}/>       
           })
         }
       </div>

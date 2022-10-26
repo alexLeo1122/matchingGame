@@ -5,7 +5,7 @@ import { selectIsClearMode } from "../clearmod/isClearMode.slice";
 import styles from "./square.module.css"
 import { SquareCons } from "../../utils/func.utils";
 import { selectIsPlayMode } from "../playmode/isPlayMode.slice";
-import { selectGamePaths, setBlockedPaths, setGamePaths } from "../game-contents/gamecontents.slice";
+import { selectGamePaths, selectResultPathStatus, setBlockedPaths, setGameContinue, setGamePaths } from "../game-contents/gamecontents.slice";
 import { Game_Board, getBlockedPaths } from "../../utils/shortTestPath";
 import { useEffect, useState } from "react";
 
@@ -32,35 +32,50 @@ export const Square = ({square,pathed}) => {
   const isClearMode = useSelector(selectIsClearMode);
   const isPlayMode = useSelector(selectIsPlayMode);
   const openPaths = useSelector(selectOpenPaths);
+  const prevGameStatus = useSelector(selectResultPathStatus);
   
   
   const sqrVisibility = square.visibility;
   let gamePaths = useSelector(selectGamePaths);
   const [selected,setSelected] = useState(false);
   if(gamePaths.length<1 &&selected===true){
-    console.log("checkcheckcheck")
     setSelected(false)
   }
   const runGameLogic=(e)=>{
-        if(isClearMode&&!isPlayMode){
-          const newObj = {...square, visibility: Square_Visibility.viSibleFalse}
-          dispatch(setNotVisible(newObj));
-        }
-        if (isClearMode&&isPlayMode&&gamePaths.length<1&&!openPaths.includes(id)){
-          dispatch(setGamePaths(id));
-          // setSelected(true);
-          if (selected){setSelected(false)}else{setSelected(true)}
-        }
-        if (isClearMode&&isPlayMode&&!openPaths.includes(id)&&gamePaths.length===1&&id!==gamePaths[0]){
-          if (selected){setSelected(false)}
-          dispatch(setGamePaths(id));
-          dispatch({type:"Saga/SetBlockedPaths&&CalGame"});          
-        }
+
+    if(!prevGameStatus){//prev == false
+      if(isClearMode&&!isPlayMode){
+        const newObj = {...square, visibility: Square_Visibility.viSibleFalse}
+        dispatch(setNotVisible(newObj));
+      }
+      if (isClearMode&&isPlayMode&&gamePaths.length<1&&!openPaths.includes(id)){
+        dispatch(setGamePaths(id));
+        // setSelected(true);
+        if (selected){setSelected(false)}else{setSelected(true)}
+      }
+      if (isClearMode&&isPlayMode&&!openPaths.includes(id)&&gamePaths.length===1&&id!==gamePaths[0]){
+        if (selected){setSelected(false)}
+        dispatch(setGamePaths(id));
+        dispatch({type:"Saga/SetBlockedPaths&&CalGame"});          
+      }
+    }else{//prev==true
+      dispatch(setGameContinue());      
+        dispatch(setGamePaths(id));
+        setSelected(true);
+        // setSelected(true);        
+      
+    }
+
+
+
+
+
   }
   
   return (
     <>
     { (!pathed)?
+    //check if squares not in success path
           <div  className ={ (sqrVisibility==="visibleFalse" && isClearMode=== true )?
           `${styles.visibleFalse} ${styles.Game_Board_Square}`:
            ((selected&&gamePaths.length===1)? `${styles.Game_Board_Square} ${styles.selected}`:`${styles.Game_Board_Square}`)}
