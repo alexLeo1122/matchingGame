@@ -98,9 +98,89 @@ export function* solveGameWorker() {
         } 
 
         const remainingCardIds = yield select(selectRemainingCardIds);
-        const pathsToCheckArr = []; 
+        const pathsToCheckArr = []; let hint = []
         let keysArr = Object.keys(cardsObjMap);
         console.log({keysArr});
+
+        remainingCardIds.forEach((cardId) => {
+          let cardIdResult = [];
+          keysArr.forEach((prop) => {
+            if (cardsObjMap[prop].cardId === cardId) {
+              cardIdResult.push(Number(prop));
+            }
+          });
+          pathsToCheckArr.push(cardIdResult);
+        });
+        console.log({pathsToCheckArr});
+        // console.log({cardsObjMap})
+
+        //checkPath
+
+    pathsToCheckArr.forEach((gamePaths)=>{//push result to hint
+          if( hint.length>0) return;
+          let pendingPaths = []; let successPaths = []; 
+          const basedBlockedPaths = getBlockedPaths(Game_Board,openPaths,gamePaths)
+          const startObj = new PathObj([gamePaths[0]],0,Status.open);
+          // console.log("start Obj",startObj)
+          pendingPaths.push(startObj);
+          //function declaration
+          const checkPath = (pathArr)=>{
+            if (successPaths.length>0){return;}
+                    const firstObj= pathArr.shift();
+                    const basePath = firstObj.path;
+                    let baseCount = firstObj.count;
+                    let prev = firstObj.prev;  
+                    let length = basePath.length;
+                    let x = basePath[length-1]; 
+      
+                    const Up = nextUp(x);
+                    const Down = nextDown(x);
+                    const Left = nextLeft(x);
+                    const Right = nextRight(x);
+                let blockedSqsPath = [...basedBlockedPaths, ...basePath];
+                const check4way = (Up,status,prev)=>{ //check4way function declaration
+                        if (successPaths.length>0){return;}
+                  if(Up)
+                  {    if (!blockedSqsPath.includes(Up)&&checkRange(Up)) {
+                          let count = baseCount;
+                        if (prev !== status) {
+                        count++;
+                        }
+                        if (count <= 3) {
+                          if (Up === gamePaths[1]) {
+                            hint = gamePaths;
+                            successPaths.push(1);
+                             return;
+                          } else {
+                            let newPath = [...basePath, Up];
+                            let newObj = new PathObj(newPath, count, status);
+                            pathArr.unshift(newObj);
+                          }
+                        }
+                      }}
+                }//end of check4way declaration
+                  check4way(Up,Status.Up,prev);
+                  check4way(Down,Status.Down,prev);
+                  check4way(Left,Status.Left,prev);
+                  check4way(Right,Status.Right,prev);
+          }// end of checkPath declaration
+      
+          while (pendingPaths.length>0&&successPaths.length<1){
+            checkPath(pendingPaths);     
+          }
+    }) //end of for Each
+
+
+
+
+  console.log({hint});
+  console.log({cardsObjMap})
+  if (hint.length>0){
+    let prop = hint[0]; 
+
+    console.log(cardsObjMap[prop]["cardId"]);
+  }
+
 
 
 

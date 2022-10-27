@@ -38,7 +38,7 @@ function App() {
   },[])
 
   useEffect(()=>{
-      dispatch({type:"Saga/SolveGame"});
+      if(openPaths.length>0)dispatch({type:"Saga/SolveGame"});
   },[openPaths])
 
   //useeffect for calculating possible path
