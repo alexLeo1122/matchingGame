@@ -5,10 +5,10 @@ import { selectIsClearMode } from "../clearmod/isClearMode.slice";
 import styles from "./square.module.css"
 import { SquareCons } from "../../utils/func.utils";
 import { selectIsPlayMode } from "../playmode/isPlayMode.slice";
-import { selectGamePaths, selectResultPathStatus, setBlockedPaths, setGameContinue, setGamePaths } from "../game-contents/gamecontents.slice";
+import { selectGamePaths, selectResultPathStatus, setBlockedPaths, setCardIds, setGameContinue, setGamePaths } from "../game-contents/gamecontents.slice";
 import { Game_Board, getBlockedPaths } from "../../utils/shortTestPath";
 import { useEffect, useState } from "react";
-
+import { cardsObjMap } from "../../utils/shortTestPath";
 
 export const Square_Visibility = {
     viSibleTrue : "visibleTrue",
@@ -28,7 +28,9 @@ const squareInfo = {
 
 export const Square = ({square,pathed}) => {
   const {id} = square;
+   
   const dispatch = useDispatch();
+  const [cardId, setCardId] = useState("");
   const isClearMode = useSelector(selectIsClearMode);
   const isPlayMode = useSelector(selectIsPlayMode);
   const openPaths = useSelector(selectOpenPaths);
@@ -41,6 +43,7 @@ export const Square = ({square,pathed}) => {
   if(gamePaths.length<1 &&selected===true){
     setSelected(false)
   }
+
   const runGameLogic=(e)=>{
 
     if(!prevGameStatus){//prev == false
@@ -51,31 +54,39 @@ export const Square = ({square,pathed}) => {
       if (isClearMode&&isPlayMode&&gamePaths.length<1&&!openPaths.includes(id)){
         dispatch(setGamePaths(id));
         // setSelected(true);
-        if (selected){setSelected(false)}else{setSelected(true)}
+        if (selected){
+          setSelected(false);
+        }else{
+          setSelected(true);
+          dispatch(setCardIds(cardId));
+        }
       }
       if (isClearMode&&isPlayMode&&!openPaths.includes(id)&&gamePaths.length===1&&id!==gamePaths[0]){
         if (selected){setSelected(false)}
         dispatch(setGamePaths(id));
-        dispatch({type:"Saga/SetBlockedPaths&&CalGame"});          
+        dispatch(setCardIds(cardId));
+        dispatch({type:"Saga/RunGame"});          
       }
     }else{//prev==true
       dispatch(setGameContinue());      
         if(!openPaths.includes(id)) {
           dispatch(setGamePaths(id));
+          dispatch(setCardIds(cardId));
           setSelected(true);
         
         }
-          
-        // setSelected(true);        
-      
+
     }
-
-
-
-
-
-  }
+ }
   
+
+
+useEffect(()=>{
+  if (cardsObjMap[id]){
+       setCardId(cardsObjMap[id]["cardId"]);
+  }
+},[])
+
   return (
     <>
     { (!pathed)?
@@ -83,12 +94,12 @@ export const Square = ({square,pathed}) => {
           <div  className ={ (sqrVisibility==="visibleFalse" && isClearMode=== true )?
           `${styles.visibleFalse} ${styles.Game_Board_Square}`:
            ((selected&&gamePaths.length===1)? `${styles.Game_Board_Square} ${styles.selected}`:`${styles.Game_Board_Square}`)}
-          onClick={runGameLogic}>{id}</div>:
+          onClick={runGameLogic}>{cardId}</div>:
 //check if the square belongs to successPath
           <div  className ={ (isClearMode=== true )?
           `${styles.visibleFalse} ${styles.Game_Board_Square} ${styles.pathed}`: 
           styles.Game_Board_Square}
-          onClick={runGameLogic}>{id}</div>          
+          onClick={runGameLogic}>{cardId}</div>          
         }
     </>
   );

@@ -18,6 +18,8 @@
 .visibleFalse {
   background: rgb(228 199 199 / 73%);
   border: 1px solid rgb(233, 221, 216);
+  color: #ffffff;
+  /* opacity: 0; */
 }
 
 .check {

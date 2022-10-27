@@ -1,6 +1,8 @@
 import { concatArrs } from "./func.utils";
 import { SquareCons } from "./func.utils";
 import { Square_Visibility } from "../features/square/square.component";
+import { shuffleArr } from "./func.utils";
+import { CardObjCons } from "./func.utils";
 
 export const Status = {
   Up: "Up",
@@ -9,8 +11,8 @@ export const Status = {
   Right: "Right",
   open: "open"
 };
-export const boardSize = {column: 15, row: 9}
-export const size = boardSize.column*boardSize.row;
+export const boardSize = {column: 16, row: 9}
+export const size = boardSize.column*boardSize.row; //[144]
 export const getBlockedPaths  = (Game_Board,openPaths,selectedPaths=[-1,-1])=>{
   return Game_Board.filter(
       (ele) => !openPaths.includes(ele) && ele !== selectedPaths[0] && ele !== selectedPaths[1]
@@ -18,49 +20,11 @@ export const getBlockedPaths  = (Game_Board,openPaths,selectedPaths=[-1,-1])=>{
 }
 
 
-export const squareArr = [];
+export const squareArr = [];// [0...144]
 for (let i=0; i<size;i++){
   let squareObj = new SquareCons(i,Square_Visibility.viSibleTrue)
   squareArr.push(squareObj);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const StartPath = { x: 16, y: 26 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -86,6 +50,26 @@ let allSqs = [];
 export const checkRange = (x)=>{
   if(x>=0&&x<=(size-1)){return true;}else{return false;}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 let baseOpenSqs =[
   0,
   1,
@@ -134,12 +118,6 @@ let baseOpenSqs =[
 ];
 
 
-let blockedSqs = allSqs.filter(
-  (ele) => !baseOpenSqs.includes(ele) && ele !== StartPath.x && ele !== StartPath.y
-);
-
-
-
 
 
 
@@ -152,26 +130,49 @@ for (let i = 0;i<boardSize.row;i++){leftFalse.push(i*boardSize.column)};
 for (let i = 0;i<boardSize.row;i++){rightFalse.push(i*boardSize.column+(boardSize.column-1))}; 
 
 
-let boardSquares = [];
+let boardSquares = []; //[0,1,144]
 for (let i = 0; i < size; i++) {
   boardSquares.push(i);
 }
 
 let z= boardSquares.filter(ele=> upFalse.includes(ele)||downFalse.includes(ele)||leftFalse.includes(ele)||rightFalse.includes(ele));
 
-//cal basedOpenPath
-
-let basedOpenResult = [];
 
 
-// const basedOpenResult= concatArrs(path2, leftFalse);
+export const basedOpenPaths = z; //[46]
 
-export const basedOpenPaths = z;
-// basedOpenResult.forEach(ele => {
-//   let newOpenPathObj = new SquareCons(ele,Square_Visibility.viSibleFalse);
-//   basedOpenPaths.push(newOpenPathObj);
-  
+
+
+export const remainingSquares = boardSquares.filter(ele=> !basedOpenPaths.includes(ele));
+const CardIds =[]; 
+for (let i = 0; i < remainingSquares.length/2; i++) {
+  CardIds.push(i);CardIds.push(i);  
+}
+
+export const basedCardIds = [];
+for (let i = 0; i < remainingSquares.length/2; i++) {
+  basedCardIds.push(i); 
+}
+export const cardIdsArr = shuffleArr(CardIds);
+
+// export const cardObjArr = [];
+// remainingSquares.forEach((boardId,index) => {
+//   let newCardObj = new CardObjCons(boardId,cardIdsArr[index]);
+//   cardObjArr.push(newCardObj);
 // });
+
+export const cardsObjMap = {};//match cardId for each blockedSquares based
+remainingSquares.forEach((boardId,index) => {
+    cardsObjMap[boardId]={}; cardsObjMap[boardId]["cardId"] = cardIdsArr[index];
+});
+
+//size = 144
+
+//cardIds Arr
+
+
+
+
 
 
 
@@ -201,71 +202,6 @@ export const nextUp = (x) =>{
      return x +1  }   
   };
 
-//declare openPath, successPath
-let openPath = [];
-let successPath = [];
-const startObj = new PathObj([StartPath.x], 0, Status.open);
-openPath.push(startObj);
-
-const checkPath = (pathArr) => {
-
-  const firstObj= pathArr.shift();
-  const basePath = firstObj.path;
-  let baseCount = firstObj.count;
-  let prev = firstObj.prev;  
-  let length = basePath.length;
-  let x = basePath[length-1]; 
-  const Up = nextUp(x);
-  const Down = nextDown(x);
-  const Left = nextLeft(x);
-  const Right = nextRight(x);
-  let blockedSqsPath = [...blockedSqs, ...basePath];
-  //declare Check4way func
-  const check4way = (Up,status,prev)=>{
-    if(Up)
-    {    if (!blockedSqsPath.includes(Up)&&checkRange(Up)) {
-            let count = baseCount;
-          if (prev !== status) {
-           count++;
-          }
-          if (count <= 3) {
-            if (Up === StartPath.y) {
-              let newPath = [...basePath, Up];
-              let successObj = new PathObj(newPath, count, status);
-              successPath.push(successObj);
-            } else {
-              let newPath = [...basePath, Up];
-              let newObj = new PathObj(newPath, count, status);
-              pathArr.unshift(newObj);
-            }
-          }
-        }}
-  }
-
-  check4way(Up,Status.Up,prev);
-  check4way(Down,Status.Down,prev);
-  check4way(Left,Status.Left,prev);
-  check4way(Right,Status.Right,prev);
-
-
-};
-
-while (openPath.length>0){
-  checkPath(openPath);
-  
-}
-
-// let i = 0;
-// while (i<20){
-//     checkPath(openPath);
-//     i++;
-// }
-
-  
-
-
-// console.log("openPath",openPath)
-//   console.log("successPath",successPath);
 
 export const findShortestPath = (arr)=>{
 let pathArr = arr.map(ele=>ele.path);
@@ -275,7 +211,7 @@ pathArr.forEach(ele => {
 });     
 return shortestPath;
 } 
-let short = findShortestPath(successPath);
+
 // console.log({short})
 
 
