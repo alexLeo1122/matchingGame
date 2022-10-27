@@ -60,8 +60,12 @@ export const Square = ({square,pathed}) => {
       }
     }else{//prev==true
       dispatch(setGameContinue());      
-        dispatch(setGamePaths(id));
-        setSelected(true);
+        if(!openPaths.includes(id)) {
+          dispatch(setGamePaths(id));
+          setSelected(true);
+        
+        }
+          
         // setSelected(true);        
       
     }

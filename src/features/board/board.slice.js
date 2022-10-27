@@ -12,20 +12,31 @@ export const boardSlice = createSlice({
     },
     setNotVisible: (state,action)=> {
         const {id} = action.payload;
-        if(!state.openPaths.includes(id)){
-         
+        if(!state.openPaths.includes(id)){         
           state.openPaths.push(id);
         }
         const newArr= state.all.map((square)=>
          square.id===id? action.payload : square
         )
         state.all = newArr;
+    },
+    setBasedOpenPath: (state,action)=>{
+      let basedOpenPaths = action.payload; //array of objects
+      //modify openPaths
+      // let idsArr = basedOpenPaths.map(ele=>ele.id);
+      state.openPaths = basedOpenPaths;      
+      //modify state.all
+     state.all= state.all.map(obj =>{
+        if (basedOpenPaths.includes(obj.id)){ return {...obj, visibility: 'visibleFalse'}}
+        else{ return obj}
+      })
     }
+
 
   },
 });
 
-export const { setBoard, setNotVisible } = boardSlice.actions;
+export const { setBoard, setNotVisible, setBasedOpenPath } = boardSlice.actions;
 
 // The function below is called a thunk and allows us to perform async logic. It
 // can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This

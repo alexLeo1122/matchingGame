@@ -1,13 +1,13 @@
 import React, { Fragment, useEffect } from 'react';
 import {Square, Square_Visibility} from "../src/features/square/square.component.jsx"
 import { useDispatch, useSelector } from 'react-redux';
-import { selectBoard, setBoard } from './features/board/board.slice';
+import { selectBoard, setBasedOpenPath, setBoard, setNotVisible } from './features/board/board.slice';
 import { selectIsClearMode, toggleIsClearMode } from './features/clearmod/isClearMode.slice';
 import {SquareCons} from "./utils/func.utils"
 import { selectIsPlayMode, toggleIsPlayMode } from './features/playmode/isPlayMode.slice.js';
 // import {Square_Visibility} from "./features/square/square.component"
 import { size } from './utils/shortTestPath.js';
-
+import { squareArr } from './utils/shortTestPath.js';
 import styles from "./App.module.css"
 import { selectResultPath } from './features/game-contents/gamecontents.slice.js';
 import {basedOpenPaths} from "../src/utils/shortTestPath"
@@ -20,7 +20,7 @@ function App() {
   //control section
   const isClearMode = useSelector(selectIsClearMode);
   const isPlayMode = useSelector(selectIsPlayMode);  
-  console.log({basedOpenPaths})
+  // console.log({basedOpenPaths})
   
   
   //handling functions
@@ -30,16 +30,9 @@ function App() {
   const togglePlayMode=()=>{
     dispatch(toggleIsPlayMode());
   }
-
-
-  
   useEffect(()=>{
-    const squareArr = [];
-    for (let i=0; i<size;i++){
-      let squareObj = new SquareCons(i,Square_Visibility.viSibleTrue)
-      squareArr.push(squareObj);
-    }
     dispatch(setBoard(squareArr));
+    dispatch(setBasedOpenPath(basedOpenPaths));
   },[])
 
 return (

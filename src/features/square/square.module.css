@@ -26,7 +26,7 @@
 
 .pathed {
   animation-name: successPath;
-  animation-duration: 2s;
+  animation-duration: 1s;
 }
 
 .selected {
@@ -38,7 +38,7 @@
 
 @keyframes successPath {
   from {
-    border: 10px solid green;
+    border: 15px solid green;
   }
   to {
     background-color: rgb(228 199 199 / 85%);

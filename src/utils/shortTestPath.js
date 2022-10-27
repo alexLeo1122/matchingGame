@@ -1,6 +1,6 @@
 import { concatArrs } from "./func.utils";
-
-
+import { SquareCons } from "./func.utils";
+import { Square_Visibility } from "../features/square/square.component";
 
 export const Status = {
   Up: "Up",
@@ -18,6 +18,11 @@ export const getBlockedPaths  = (Game_Board,openPaths,selectedPaths=[-1,-1])=>{
 }
 
 
+export const squareArr = [];
+for (let i=0; i<size;i++){
+  let squareObj = new SquareCons(i,Square_Visibility.viSibleTrue)
+  squareArr.push(squareObj);
+}
 
 
 
@@ -147,10 +152,27 @@ for (let i = 0;i<boardSize.row;i++){leftFalse.push(i*boardSize.column)};
 for (let i = 0;i<boardSize.row;i++){rightFalse.push(i*boardSize.column+(boardSize.column-1))}; 
 
 
-//cal basedOpenPath
-let path1 = concatArrs(upFalse,rightFalse); let path2 = concatArrs(path1,downFalse);
+let boardSquares = [];
+for (let i = 0; i < size; i++) {
+  boardSquares.push(i);
+}
 
-export const basedOpenPaths = concatArrs(path2, leftFalse);
+let z= boardSquares.filter(ele=> upFalse.includes(ele)||downFalse.includes(ele)||leftFalse.includes(ele)||rightFalse.includes(ele));
+
+//cal basedOpenPath
+
+let basedOpenResult = [];
+
+
+// const basedOpenResult= concatArrs(path2, leftFalse);
+
+export const basedOpenPaths = z;
+// basedOpenResult.forEach(ele => {
+//   let newOpenPathObj = new SquareCons(ele,Square_Visibility.viSibleFalse);
+//   basedOpenPaths.push(newOpenPathObj);
+  
+// });
+
 
 
 

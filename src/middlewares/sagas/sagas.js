@@ -64,6 +64,15 @@ export  function* gameCalWorker(){
                 check4way(Right,Status.Right,prev);
     }// end of checkPath
 
+
+    // if(pendingPaths.length>0){
+    //   for (let index = 0; index < 5; index++) {
+    //     checkPath(pendingPaths);      
+    //     console.log({pendingPaths})
+        
+    //   }
+
+    // }
     while (pendingPaths.length>0){
       checkPath(pendingPaths);      
     }
