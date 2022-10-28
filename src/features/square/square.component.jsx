@@ -1,25 +1,18 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectOpenPaths, setNotVisible } from "../board/board.slice";
-import { selectIsClearMode } from "../clearmod/isClearMode.slice";
 import styles from "./square.module.css"
-import { SquareCons } from "../../utils/func.utils";
-import { selectIsPlayMode } from "../playmode/isPlayMode.slice";
+import { SquareCons,pokemonSvgSize } from "../../utils/func.utils";
 import { selectGamePaths, selectResultPath, selectResultPathStatus, setBlockedPaths, setCardIds, setGameContinue, setGamePaths } from "../game-contents/gamecontents.slice";
 import { Game_Board, getBlockedPaths } from "../../utils/shortTestPath";
 import { useEffect, useState } from "react";
-import { selectGameHint, selectGameHintPath } from "../game-solutions/game-solutions.slice";
+import { selectGameHint, selectGameHintPath, selectRemainingCardIds } from "../game-solutions/game-solutions.slice";
 import { selectIsHintMode } from "../hint-mode/hint-mode.slice";
 import { selectCardsObjMap } from "../cardsObjMap/cardsObjMap.slice";
 
 export const Square_Visibility = {
     viSibleTrue : "visibleTrue",
     viSibleFalse: "visibleFalse"
-}
-
-let originalStyles = {};
-let pathedStyles = {
-  backgroundColor: "red"
 }
 
 const squareInfo = {
@@ -32,9 +25,7 @@ export const Square = ({square,pathed}) => {
   const isHintMode = useSelector(selectIsHintMode);
   const {id} = square;   
   const hintResult = useSelector(selectGameHintPath);
-  // const istrue = useSelector(selectResultPathStatus);
   const {path} = useSelector(selectResultPath);
-  // const {path,isSucceed} = resultPath;
 
   let hinted = false;
   if (isHintMode){
@@ -42,16 +33,13 @@ export const Square = ({square,pathed}) => {
   }
   
   const dispatch = useDispatch();
-  const [cardId, setCardId] = useState("");
-  const isClearMode = useSelector(selectIsClearMode);
-  const isPlayMode = useSelector(selectIsPlayMode);
+  const [cardId, setCardId] = useState(" ");
   const openPaths = useSelector(selectOpenPaths);
   const prevGameStatus = useSelector(selectResultPathStatus);
-  
-  
   const sqrVisibility = square.visibility;
   let gamePaths = useSelector(selectGamePaths);
   const [selected,setSelected] = useState(false);
+  const cardIdsRemaining = useSelector(selectRemainingCardIds);
   if(gamePaths.length<1 &&selected===true){
     setSelected(false)
   }
@@ -60,11 +48,8 @@ export const Square = ({square,pathed}) => {
   const runGameLogic=(e)=>{
 
     if(!prevGameStatus){//prev == false
-      if(isClearMode&&!isPlayMode){
-        const newObj = {...square, visibility: Square_Visibility.viSibleFalse}
-        dispatch(setNotVisible(newObj));
-      }
-      if (isClearMode&&isPlayMode&&gamePaths.length<1&&!openPaths.includes(id)){
+
+      if (gamePaths.length<1&&!openPaths.includes(id)){
         dispatch(setGamePaths(id));
         // setSelected(true);
         if (selected){
@@ -74,7 +59,7 @@ export const Square = ({square,pathed}) => {
           dispatch(setCardIds(cardId));
         }
       }
-      if (isClearMode&&isPlayMode&&!openPaths.includes(id)&&gamePaths.length===1&&id!==gamePaths[0]){
+      if (!openPaths.includes(id)&&gamePaths.length===1&&id!==gamePaths[0]){
         if (selected){setSelected(false)}
         dispatch(setGamePaths(id));
         dispatch(setCardIds(cardId));
@@ -91,29 +76,37 @@ export const Square = ({square,pathed}) => {
 
     }
  }
-  
-
 
 useEffect(()=>{
   if (cardsObjMap[id]){
        setCardId(cardsObjMap[id]["cardId"]);
   }
+
+
 },[cardsObjMap])
 
   return (
     <>
     { (!pathed)?
     //check if squares not in success path
-          <div  className ={ (sqrVisibility==="visibleFalse" && isClearMode=== true )?
+          <div  className ={ (sqrVisibility==="visibleFalse" )?
           `${styles.visibleFalse} ${styles.Game_Board_Square}`:
           (hinted)?`${styles.Game_Board_Square} ${styles.hinted}`:
            ((selected&&gamePaths.length===1)? `${styles.Game_Board_Square} ${styles.selected}`:`${styles.Game_Board_Square}`)}
-          onClick={runGameLogic}>{cardId}</div>:
-//check if the square belongs to successPath
-          <div  className ={ (isClearMode=== true )?
-          `${styles.visibleFalse} ${styles.Game_Board_Square} ${styles.pathed}`: 
-          styles.Game_Board_Square}
-          onClick={runGameLogic}>{cardId}</div>          
+          onClick={runGameLogic}>
+         
+            {(!isNaN(cardId)&&cardIdsRemaining.includes(cardId))&&<img src={`images/${cardId+1}.svg`} alt="pokemon" style={pokemonSvgSize}/>
+}
+            
+            </div>:
+    //check if the square belongs to successPath
+          <div  className ={ 
+          `${styles.visibleFalse} ${styles.Game_Board_Square} ${styles.pathed}`}
+          onClick={runGameLogic}>
+                    {(!isNaN(cardId)&&cardIdsRemaining.includes(cardId))&&<img alt="" src={`https://pngimg.com/uploads/pokemon/pokemon_PNG${cardId+50}.png`} style={{width: "65px",height:"65px"}}/>}
+
+
+          </div>          
         }
     </>
   );

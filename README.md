@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Adding PKM SVG + Some Styling + Remove PlayMode && Clear Mode
+
 ### Hint Working + Shuffle card Working + Animation Working
 
 ### ShortestPath + Selected CSS + HightLight Path

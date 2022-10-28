@@ -6,20 +6,23 @@
 .Game_Board_Square {
   width: var(--squareSize);
   height: var(--squareSize);
-  border: 1px solid rgb(201, 73, 13);
+  /* border: 1px solid rgb(201, 73, 13); */
   margin: 0 auto;
-  background: rgb(226 134 134 / 73%);
+  background: rgba(226, 176, 176, 0.73);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #3700d4;
+  cursor: pointer;
+  border-radius: 14%;
 }
 
 .visibleFalse {
   background: rgb(228 199 199 / 73%);
   border: 1px solid rgb(233, 221, 216);
   color: #ffffff;
-  /* opacity: 0; */
+  cursor: default;
+  opacity: 0.3;
 }
 
 .check {
@@ -28,7 +31,8 @@
 
 .pathed {
   animation-name: successPath;
-  animation-duration: 2s;
+  animation-duration: 1.5s;
+  animation-timing-function: ease-out;
   /* background-color: red; */
 }
 
@@ -37,19 +41,39 @@
   animation-name: selectedMotion;
   animation-duration: 2s;
   animation-iteration-count: infinite;
+  animation-timing-function: ease-out;
 }
 
 .hinted {
   animation-name: hinted;
-  animation-duration: 0.8s;
+  animation-duration: 0.9s;
 }
 
 @keyframes successPath {
-  from {
-    border: 15px solid green;
+  0% {
+    border: 25px solid rgba(218, 31, 31, 0.73);
   }
-  to {
-    background-color: rgb(228 199 199 / 85%);
+  30% {
+    border: 10px solid rgba(194, 112, 112, 0.73);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+  }
+  60% {
+    border: 15px solid rgba(211, 159, 159, 0.73);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+  80% {
+    border: 50px solid rgba(211, 159, 159, 0.73);
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+  }
+  100% {
+    background-color: rgba(223, 209, 209, 0.73);
+    border-radius: 20%;
   }
 }
 @keyframes selectedMotion {

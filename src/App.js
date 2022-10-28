@@ -2,9 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import {Square, Square_Visibility} from "../src/features/square/square.component.jsx"
 import { useDispatch, useSelector } from 'react-redux';
 import { selectBoard, selectOpenPaths, setBasedOpenPath, setBoard, setNotVisible } from './features/board/board.slice';
-import { selectIsClearMode, toggleIsClearMode } from './features/clearmod/isClearMode.slice';
-import {SquareCons} from "./utils/func.utils"
-import { selectIsPlayMode, toggleIsPlayMode } from './features/playmode/isPlayMode.slice.js';
+import {SquareCons, pokemonSvgSize} from "./utils/func.utils"
 // import {Square_Visibility} from "./features/square/square.component"
 import { size } from './utils/shortTestPath.js';
 import { squareArr } from './utils/shortTestPath.js';
@@ -22,19 +20,8 @@ function App() {
   const cardsObjMap = useSelector(selectCardsObjMap)
   const board = useSelector(selectBoard);
   const openPaths = useSelector(selectOpenPaths);
-  const {path}= useSelector(selectResultPath);  
-  
+  const {path}= useSelector(selectResultPath);    
 
-
-  const isClearMode = useSelector(selectIsClearMode);
-  const isPlayMode = useSelector(selectIsPlayMode);  
-
-  const toggleClearMode=()=>{
-   dispatch(toggleIsClearMode());
-  }
-  const togglePlayMode=()=>{
-    dispatch(toggleIsPlayMode());
-  }
   const getHint = ()=>{
     // e.preventDefault();
     dispatch(setIsHintModeTrue())
@@ -62,15 +49,11 @@ return (
       <div className={styles.Game_Title}>My Board game</div>
       {/* control section */}
       <div className={styles.Button_Div}>
-        <button className={isClearMode===true?styles.Clear_Mode: styles.Clear_Button} onClick={toggleClearMode}>Clear Mode</button>
-        {" "}
-        <button 
-        className={isPlayMode===true?styles.Clear_Mode: styles.Clear_Button}
-        onClick={togglePlayMode}>Play Mode</button>
         <button 
         className={styles.Clear_Button}
         onClick={getHint}>Get Hint</button>
       </div>
+
 
 
       {/* gameBoard section */}

@@ -5,8 +5,6 @@ import { MyLogger } from '../middlewares/middlewares';
 import rootSaga from '../middlewares/sagas/sagas';
 import createSagaMiddleware from '@redux-saga/core';
 import boardReducer from "../features/board/board.slice"
-import isClearModeReducer from '../features/clearmod/isClearMode.slice';
-import isPlayModeReducer from "../features/playmode/isPlayMode.slice"
 import gameContentsReducer from '../features/game-contents/gamecontents.slice';
 import gameSolutionsReducer from '../features/game-solutions/game-solutions.slice';
 import hintModeReducer from '../features/hint-mode/hint-mode.slice';
@@ -26,8 +24,6 @@ export const store = configureStore({
     gameContents: gameContentsReducer,
     solutions: gameSolutionsReducer,
     cardsObjMap: cardsObjMapReducer,
-    isClearMode: isClearModeReducer,
-    isPlayMode: isPlayModeReducer,
     isHintMode: hintModeReducer,
 
 

@@ -35,3 +35,7 @@ export function SquareCons(id, visibility) {
     })
 
   
+export const pokemonSvgSize ={
+  width: "68px",
+  height: "68px"
+}
