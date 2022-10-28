@@ -28,7 +28,8 @@
 
 .pathed {
   animation-name: successPath;
-  animation-duration: 1s;
+  animation-duration: 2s;
+  /* background-color: red; */
 }
 
 .selected {
@@ -36,6 +37,11 @@
   animation-name: selectedMotion;
   animation-duration: 2s;
   animation-iteration-count: infinite;
+}
+
+.hinted {
+  animation-name: hinted;
+  animation-duration: 0.8s;
 }
 
 @keyframes successPath {
@@ -49,5 +55,14 @@
 @keyframes selectedMotion {
   to {
     transform: rotateY(360deg);
+  }
+}
+
+@keyframes hinted {
+  from {
+    border: 30px solid rgb(128, 60, 192);
+  }
+  to {
+    background-color: rgb(228 199 199 / 85%);
   }
 }

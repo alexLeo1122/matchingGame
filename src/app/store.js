@@ -9,6 +9,9 @@ import isClearModeReducer from '../features/clearmod/isClearMode.slice';
 import isPlayModeReducer from "../features/playmode/isPlayMode.slice"
 import gameContentsReducer from '../features/game-contents/gamecontents.slice';
 import gameSolutionsReducer from '../features/game-solutions/game-solutions.slice';
+import hintModeReducer from '../features/hint-mode/hint-mode.slice';
+import cardsObjMapReducer from '../features/cardsObjMap/cardsObjMap.slice';
+
 const sagaMiddleWare = createSagaMiddleware();
 
 const persistConfig = {
@@ -20,10 +23,14 @@ const persistConfig = {
 export const store = configureStore({
   reducer: {
     board: boardReducer,
+    gameContents: gameContentsReducer,
+    solutions: gameSolutionsReducer,
+    cardsObjMap: cardsObjMapReducer,
     isClearMode: isClearModeReducer,
     isPlayMode: isPlayModeReducer,
-    gameContents: gameContentsReducer,
-    solutions: gameSolutionsReducer
+    isHintMode: hintModeReducer,
+
+
 
     // taskLists: persistReducer(persistConfig,taskListsReducer),
 

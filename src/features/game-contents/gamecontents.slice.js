@@ -9,7 +9,7 @@ export const gameContentsSlice = createSlice({
       resultPath: {
         path: null,
         isSucceed: null
-   }
+      }
   },
   reducers: {
     setGamePaths: (state,action) => {
@@ -26,7 +26,8 @@ export const gameContentsSlice = createSlice({
         path:null,isSucceed:null
       }
     },
-    setResultSucceed: (state,action)=>{
+    setResultSucceed: (state,action)=>{     
+
        state.resultPath.isSucceed = true;
        state.resultPath.path = action.payload;      
     },
@@ -56,7 +57,12 @@ export const { setGamePaths, setCardIds,setBlockedPaths, setResultFailed, setRes
 //selectors
 export const selectGamePaths = state => state.gameContents.gamePaths;
 export const selectBlockedPaths = state => state.gameContents.blockedPaths;
-export const selectResultPath = state => state.gameContents.resultPath.path;
+
+// export const selectResultPath = state => state.gameContents.resultPath;
+
+export const selectResultPath = state => state.gameContents.resultPath;
+
+
 export const selectResultPathStatus = state => state.gameContents.resultPath.isSucceed;
 export const selectCardIds = state=> state.gameContents.cardIds
 

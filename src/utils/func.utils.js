@@ -26,3 +26,12 @@ export function SquareCons(id, visibility) {
     this.boardid = boardId;
     this.cardId = cardId;
   }
+
+
+  export const delay = (ms) => new Promise((res) => {
+      setTimeout(() => {
+        res(`Waiting ${ms}ms`);
+      }, ms);
+    })
+
+  

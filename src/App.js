@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {Square, Square_Visibility} from "../src/features/square/square.component.jsx"
 import { useDispatch, useSelector } from 'react-redux';
 import { selectBoard, selectOpenPaths, setBasedOpenPath, setBoard, setNotVisible } from './features/board/board.slice';
@@ -10,17 +10,22 @@ import { size } from './utils/shortTestPath.js';
 import { squareArr } from './utils/shortTestPath.js';
 import styles from "./App.module.css"
 import { selectResultPath } from './features/game-contents/gamecontents.slice.js';
-import {basedOpenPaths, cardsObjMap, remainingSquares,cardIdsArr, basedCardIds} from "../src/utils/shortTestPath"
+import {basedOpenPaths, basedCardsObjMap, remainingSquares,cardIdsArr, basedCardIds} from "../src/utils/shortTestPath"
 import { setRemainingCardIds } from './features/game-solutions/game-solutions.slice.js';
+import { changeIsHintMode, setIsHintModeTrue, toggleIsHintMode } from './features/hint-mode/hint-mode.slice.js';
+import { selectCardsObjMap, setCardsObjMap } from './features/cardsObjMap/cardsObjMap.slice.js';
 
 
 function App() {
   // console.log(basedCardIds)
   const dispatch = useDispatch();
+  const cardsObjMap = useSelector(selectCardsObjMap)
   const board = useSelector(selectBoard);
-  const openPaths = useSelector(selectOpenPaths)
-  const resultPath = useSelector(selectResultPath);
-  //control section
+  const openPaths = useSelector(selectOpenPaths);
+  const {path}= useSelector(selectResultPath);  
+  
+
+
   const isClearMode = useSelector(selectIsClearMode);
   const isPlayMode = useSelector(selectIsPlayMode);  
 
@@ -30,16 +35,24 @@ function App() {
   const togglePlayMode=()=>{
     dispatch(toggleIsPlayMode());
   }
+  const getHint = ()=>{
+    // e.preventDefault();
+    dispatch(setIsHintModeTrue())
+    dispatch({type:"Saga/toggleHintMode"})
+
+  }
+
 
   useEffect(()=>{
     dispatch(setBoard(squareArr));
     dispatch(setBasedOpenPath(basedOpenPaths));
-    dispatch(setRemainingCardIds(basedCardIds))
+    dispatch(setRemainingCardIds(basedCardIds));
+    dispatch(setCardsObjMap(basedCardsObjMap))
   },[])
 
   useEffect(()=>{
-      if(openPaths.length>0)dispatch({type:"Saga/SolveGame"});
-  },[openPaths])
+      if(openPaths.length>0){dispatch({type:"Saga/SolveGame"})};
+  },[openPaths,cardsObjMap])
 
   //useeffect for calculating possible path
 
@@ -55,13 +68,16 @@ return (
         className={isPlayMode===true?styles.Clear_Mode: styles.Clear_Button}
         onClick={togglePlayMode}>Play Mode</button>
         <button 
-        className={isPlayMode===true?styles.Clear_Mode: styles.Clear_Button}
-        onClick={togglePlayMode}>Hint</button>
+        className={styles.Clear_Button}
+        onClick={getHint}>Get Hint</button>
       </div>
+
+
+      {/* gameBoard section */}
       <div className={styles.Game_Board} >
         {
           board.map((square,index) =>{
-           return (resultPath&&resultPath.includes(index))? <Square key={index} square={square } pathed={true}/>:
+           return (path&&path.includes(index))? <Square key={index} square={square } pathed={true}/>:
            <Square key={index} square={square} pathed={false}/>       
           })
         }

@@ -70,53 +70,6 @@ export const checkRange = (x)=>{
 
 
 
-let baseOpenSqs =[
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  10,
-  11,
-  12,
-  13,
-  14,
-  29,
-  44,
-  59,
-  74,
-  89,
-  104,
-  119,
-  134,
-  133,
-  132,
-  131,
-  130,
-  129,
-  128,
-  127,
-  126,
-  125,
-  124,
-  123,
-  122,
-  121,
-  120,
-  105,
-  90,
-  75,
-  60,
-  45,
-  30,
-  15
-];
-
 
 
 
@@ -130,7 +83,7 @@ for (let i = 0;i<boardSize.row;i++){leftFalse.push(i*boardSize.column)};
 for (let i = 0;i<boardSize.row;i++){rightFalse.push(i*boardSize.column+(boardSize.column-1))}; 
 
 
-let boardSquares = []; //[0,1,144]
+export const boardSquares = []; //[0,1,144]
 for (let i = 0; i < size; i++) {
   boardSquares.push(i);
 }
@@ -161,9 +114,9 @@ export const cardIdsArr = shuffleArr(CardIds);
 //   cardObjArr.push(newCardObj);
 // });
 
-export const cardsObjMap = {};//match cardId for each blockedSquares based
+export const basedCardsObjMap = {};//match cardId for each blockedSquares based
 remainingSquares.forEach((boardId,index) => {
-    cardsObjMap[boardId]={}; cardsObjMap[boardId]["cardId"] = cardIdsArr[index];
+    basedCardsObjMap[boardId]={}; basedCardsObjMap[boardId]["cardId"] = cardIdsArr[index];
 });
 
 //size = 144
@@ -374,6 +327,15 @@ export const Game_Board =[
   131,
   132,
   133,
-  134
+  134,
+  135,
+  136,
+  137,
+  138,
+  139,
+  140,
+  141,
+  142,
+  143
 ]
 

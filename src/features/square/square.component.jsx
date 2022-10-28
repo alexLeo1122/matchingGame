@@ -5,10 +5,12 @@ import { selectIsClearMode } from "../clearmod/isClearMode.slice";
 import styles from "./square.module.css"
 import { SquareCons } from "../../utils/func.utils";
 import { selectIsPlayMode } from "../playmode/isPlayMode.slice";
-import { selectGamePaths, selectResultPathStatus, setBlockedPaths, setCardIds, setGameContinue, setGamePaths } from "../game-contents/gamecontents.slice";
+import { selectGamePaths, selectResultPath, selectResultPathStatus, setBlockedPaths, setCardIds, setGameContinue, setGamePaths } from "../game-contents/gamecontents.slice";
 import { Game_Board, getBlockedPaths } from "../../utils/shortTestPath";
 import { useEffect, useState } from "react";
-import { cardsObjMap } from "../../utils/shortTestPath";
+import { selectGameHint, selectGameHintPath } from "../game-solutions/game-solutions.slice";
+import { selectIsHintMode } from "../hint-mode/hint-mode.slice";
+import { selectCardsObjMap } from "../cardsObjMap/cardsObjMap.slice";
 
 export const Square_Visibility = {
     viSibleTrue : "visibleTrue",
@@ -27,8 +29,18 @@ const squareInfo = {
 
 
 export const Square = ({square,pathed}) => {
-  const {id} = square;
-   
+  const isHintMode = useSelector(selectIsHintMode);
+  const {id} = square;   
+  const hintResult = useSelector(selectGameHintPath);
+  // const istrue = useSelector(selectResultPathStatus);
+  const {path} = useSelector(selectResultPath);
+  // const {path,isSucceed} = resultPath;
+
+  let hinted = false;
+  if (isHintMode){
+    if(hintResult){if(hintResult.includes(id)){  hinted = true}};
+  }
+  
   const dispatch = useDispatch();
   const [cardId, setCardId] = useState("");
   const isClearMode = useSelector(selectIsClearMode);
@@ -43,7 +55,8 @@ export const Square = ({square,pathed}) => {
   if(gamePaths.length<1 &&selected===true){
     setSelected(false)
   }
-
+  const cardsObjMap = useSelector(selectCardsObjMap)
+  
   const runGameLogic=(e)=>{
 
     if(!prevGameStatus){//prev == false
@@ -85,7 +98,7 @@ useEffect(()=>{
   if (cardsObjMap[id]){
        setCardId(cardsObjMap[id]["cardId"]);
   }
-},[])
+},[cardsObjMap])
 
   return (
     <>
@@ -93,6 +106,7 @@ useEffect(()=>{
     //check if squares not in success path
           <div  className ={ (sqrVisibility==="visibleFalse" && isClearMode=== true )?
           `${styles.visibleFalse} ${styles.Game_Board_Square}`:
+          (hinted)?`${styles.Game_Board_Square} ${styles.hinted}`:
            ((selected&&gamePaths.length===1)? `${styles.Game_Board_Square} ${styles.selected}`:`${styles.Game_Board_Square}`)}
           onClick={runGameLogic}>{cardId}</div>:
 //check if the square belongs to successPath

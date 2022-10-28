@@ -2,9 +2,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const gameSolutionsSlice = createSlice({
-  name: 'board',
+  name: 'solutions',
   initialState: {
-            hint: [],
+            hint: {path: null, cardId: null},
             isTrue:  true,
             hintsLeft: 3,
             remainingCardIds:[]
@@ -21,7 +21,8 @@ export const gameSolutionsSlice = createSlice({
         }, 
         setGameHint: (state,{payload})=>{
             state.hint = payload;
-        }
+        },
+
 
 
   },
@@ -40,7 +41,7 @@ export const {setGameSolutionsTrue, setGameHint, setGameSolutionsFalse, setRemai
 // in the slice file. For example: `useSelector((state) => state.counter.value)`
 export const selectGameSolutionsStatus = state => state.solutions.isTrue;
 export const selectHintsLeft = state => state.solutions.hintsLeft;
-export const selectGameHint = state => state.solutions.hint;
+export const selectGameHintPath = state => state.solutions.hint.path;
 export const selectRemainingCardIds = state => state.solutions.remainingCardIds;
 
 
