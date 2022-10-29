@@ -1,3 +1,5 @@
+import { basedCountDownBar, TwoThirdsBar, oneThirdBar } from './basedData.ultils';
+
 export function SquareCons(id, visibility) {
     this.id = id;
     this.visibility = visibility;
@@ -40,4 +42,25 @@ export const pokemonSvgSize = {
 
 export const percentConver = (number) => {
     return `${number * 100}%`;
+};
+
+export const creatBarProgress = (barPercentString, barPerCent) => {
+    let newObj;
+    if (barPerCent >= 0.7) {
+        newObj = {
+            ...basedCountDownBar,
+            width: barPercentString,
+        };
+    } else if (barPerCent >= 0.4) {
+        newObj = {
+            ...TwoThirdsBar,
+            width: barPercentString,
+        };
+    } else {
+        newObj = {
+            ...oneThirdBar,
+            width: barPercentString,
+        };
+    }
+    return newObj;
 };

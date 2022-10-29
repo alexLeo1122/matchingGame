@@ -1,0 +1,36 @@
+.Navbar {
+    display: flex;
+    /* border: 1px solid red; */
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.Navbar_Info {
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+    width: 400px;
+    align-items: center;
+}
+
+.Navbar_Info_CountDownBar {
+    width: 100%;
+}
+
+.Navbar_Info_Scores {
+    text-align: center;
+}
+.getHint {
+    margin-top: 30px;
+    width: 140px;
+    height: 40px;
+    font-size: 20px;
+    cursor: pointer;
+    border: none;
+    background-color: rgb(144, 224, 24);
+    color: rgb(71, 35, 10);
+    font-weight: 700;
+    border-radius: 6%;
+}

@@ -55,27 +55,26 @@
     margin-bottom: 30px;
 }
 
-.Navbar {
+/* .Navbar {
     display: flex;
     /* border: 1px solid red; */
-    width: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-}
+/* width: 100%; */
+/* flex-direction: row; */
+/* align-items: center;
+    justify-content: space-evenly; */
+/* } */
 
-.Navbar_Info {
+/* .Navbar_Info {
     display: flex;
     justify-content: space-between;
     /* border: 1px solid red; */
-    width: 400px;
+/* width: 400px;
     align-items: center;
 }
 
 .Navbar_Info_CountDownBar {
     width: 100%;
-}
-
+/* } */
 /* .Navbar_Info_CountDownBar {
     border: none;
     background-color: rgb(199, 47, 9);
@@ -91,9 +90,9 @@
 /* } */
 /* */
 
-.Navbar_Info_Scores {
+/* .Navbar_Info_Scores {
     text-align: center;
-}
+} */
 /* 
 @keyframes countDownBar {
     0% {

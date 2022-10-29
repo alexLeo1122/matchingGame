@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Create <NavBar />
+
 ### ProgressBar + CountDown + Formated by Prettier
 
 ### Adding PKM SVG + Some Styling + Remove PlayMode && Clear Mode

@@ -1,6 +1,8 @@
 export const scored = {
-    excellent: 10,
-    success: 5,
+    excellent: 20,
+    success: 15,
+    moderate: 10,
+    passed: 5,
 };
 
 export const basedCountDownBar = {

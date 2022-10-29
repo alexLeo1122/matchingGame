@@ -110,10 +110,15 @@ export function* runGameWorker() {
         const resultPath = findShortestPath(successPaths);
         yield put(setResultSucceed(resultPath));
         const currentCountDown = yield select(selectCountDown);
-        if (currentCountDown / basedCountDown >= 0.5) {
+        let percentToCheck = currentCountDown / basedCountDown;
+        if (percentToCheck >= 0.7) {
             yield put(setScores(scored.excellent));
-        } else {
+        } else if (percentToCheck >= 0.4) {
             yield put(setScores(scored.success));
+        } else if (percentToCheck > 0) {
+            yield put(setScores(scored.moderate));
+        } else {
+            yield put(setScores(scored.passed));
         }
         const cardIdToRemove = cardIds[0];
         const storeCardIds = yield select(selectRemainingCardIds);
