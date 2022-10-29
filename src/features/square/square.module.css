@@ -1,92 +1,103 @@
 :root {
-  --squareSize: 70px;
-  --white: #ffffff;
+    --squareSize: 70px;
+    --white: #ffffff;
 }
 
 .Game_Board_Square {
-  width: var(--squareSize);
-  height: var(--squareSize);
-  /* border: 1px solid rgb(201, 73, 13); */
-  margin: 0 auto;
-  background: rgba(226, 176, 176, 0.73);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #3700d4;
-  cursor: pointer;
-  border-radius: 14%;
+    width: var(--squareSize);
+    height: var(--squareSize);
+    /* border: 1px solid rgb(201, 73, 13); */
+    margin: 0 auto;
+    background: rgba(226, 176, 176, 0.73);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #3700d4;
+    cursor: pointer;
+    border-radius: 14%;
+}
+
+img {
+    transform: translateZ();
+    transition: transform 0.2s ease-out;
+    border-radius: 15%;
+}
+
+img:hover {
+    transform: scale(1.1);
+    background: rgba(223, 153, 153, 0.73);
 }
 
 .visibleFalse {
-  background: rgb(228 199 199 / 73%);
-  border: 1px solid rgb(233, 221, 216);
-  color: #ffffff;
-  cursor: default;
-  opacity: 0.3;
+    background: rgb(228 199 199 / 20%);
+    border: 1px solid rgb(233, 221, 216 /20%);
+    color: #ffffff;
+    cursor: default;
+    /* opacity: 0.3; */
 }
 
 .check {
-  background-color: yellow;
+    background-color: yellow;
 }
 
 .pathed {
-  animation-name: successPath;
-  animation-duration: 1.5s;
-  animation-timing-function: ease-out;
-  /* background-color: red; */
+    animation-name: successPath;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    /* background-color: red; */
 }
 
 .selected {
-  background-color: rgba(236, 69, 69, 0.73);
-  animation-name: selectedMotion;
-  animation-duration: 2s;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-out;
+    background-color: rgba(236, 69, 69, 0.73);
+    animation-name: selectedMotion;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-out;
 }
 
 .hinted {
-  animation-name: hinted;
-  animation-duration: 0.9s;
+    animation-name: hinted;
+    animation-duration: 0.9s;
 }
 
 @keyframes successPath {
-  0% {
-    border: 25px solid rgba(218, 31, 31, 0.73);
-  }
-  30% {
-    border: 10px solid rgba(194, 112, 112, 0.73);
-    border-radius: 50%;
-    width: 10px;
-    height: 10px;
-  }
-  60% {
-    border: 15px solid rgba(211, 159, 159, 0.73);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-  }
-  80% {
-    border: 50px solid rgba(211, 159, 159, 0.73);
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-  }
-  100% {
-    background-color: rgba(223, 209, 209, 0.73);
-    border-radius: 20%;
-  }
+    0% {
+        border: 25px solid rgba(218, 31, 31, 0.73);
+    }
+    30% {
+        border: 10px solid rgba(194, 112, 112, 0.73);
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+    }
+    60% {
+        border: 15px solid rgba(211, 159, 159, 0.73);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+    }
+    80% {
+        border: 50px solid rgba(211, 159, 159, 0.73);
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+    }
+    100% {
+        background-color: rgba(223, 209, 209, 0.73);
+        border-radius: 20%;
+    }
 }
 @keyframes selectedMotion {
-  to {
-    transform: rotateY(360deg);
-  }
+    to {
+        transform: rotateY(360deg);
+    }
 }
 
 @keyframes hinted {
-  from {
-    border: 30px solid rgb(128, 60, 192);
-  }
-  to {
-    background-color: rgb(228 199 199 / 85%);
-  }
+    from {
+        border: 30px solid rgb(128, 60, 192);
+    }
+    to {
+        background-color: rgb(228 199 199 / 85%);
+    }
 }
