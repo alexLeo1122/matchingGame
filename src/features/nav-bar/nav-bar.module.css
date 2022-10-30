@@ -77,3 +77,19 @@ img {
 
 .basedCurrency {
 }
+
+.currency {
+    /* position: absolute;
+    margin-top: 8px; */
+    color: #e87e17;
+    animation: rotating360Y 3s ease-out infinite;
+}
+.hint:hover {
+    color: #e0a263;
+}
+
+@keyframes rotating360Y {
+    100% {
+        transform: rotateY(360deg);
+    }
+}

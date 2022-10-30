@@ -44,23 +44,17 @@ export const percentConver = (number) => {
     return `${number * 100}%`;
 };
 
-export const creatBarProgress = (barPercentString, barPerCent) => {
-    let newObj;
-    if (barPerCent >= 0.7) {
-        newObj = {
-            ...basedCountDownBar,
-            width: barPercentString,
-        };
-    } else if (barPerCent >= 0.4) {
-        newObj = {
-            ...TwoThirdsBar,
-            width: barPercentString,
-        };
-    } else {
-        newObj = {
-            ...oneThirdBar,
-            width: barPercentString,
-        };
-    }
-    return newObj;
+export const creatBarProgress = (barPerCent) => {
+    //     let newObj;
+    //    if ( 0.4<= barPerCent&&barPerCent <0.7) {
+    //         newObj = {
+    //             ...TwoThirdsBar,
+    //         };
+    //     } else if {
+    //         newObj = {
+    //             ...oneThirdBar,
+    //         };
+    //     }
+    //     return newObj;
+    return null;
 };

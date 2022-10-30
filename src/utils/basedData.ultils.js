@@ -16,21 +16,6 @@ export const basedCountDownBar = {
 };
 
 export const basedCountDown = 16;
-export const TwoThirdsBar = {
-    border: 'none',
-    backgroundColor: 'rgb(215 202 42)',
-    width: '70%',
-    height: '30px',
-    display: 'flex',
-    textAlign: 'center',
-    alignItems: 'center',
-};
-export const oneThirdBar = {
-    border: 'none',
-    backgroundColor: 'rgb(234 68 13)',
-    width: '70%',
-    height: '30px',
-    display: 'flex',
-    textAlign: 'center',
-    alignItems: 'center',
-};
+export const originalBar = '#7dd01d';
+export const TwoThirdsBar = 'yellow';
+export const oneThirdBar = 'rgb(234 68 13)';

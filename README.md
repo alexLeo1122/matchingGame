@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Made BarProgressSvg Component
+
 ## Add MUI Icon
 
 ### Create <NavBar />
