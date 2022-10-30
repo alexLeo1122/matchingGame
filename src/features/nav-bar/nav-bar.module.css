@@ -1,3 +1,6 @@
+* {
+    font-family: roboto;
+}
 .Navbar {
     display: flex;
     /* border: 1px solid red; */
@@ -5,25 +8,49 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+    margin-bottom: 30px;
 }
 
+.Navbar_hint {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: #e87e17;
+    font-weight: 700;
+}
+.Navbar_hint_text {
+    margin-top: 24px;
+    margin-left: -9px;
+}
 .Navbar_Info {
     display: flex;
     justify-content: space-between;
     /* border: 1px solid red; */
     width: 400px;
     align-items: center;
+    flex-direction: row;
 }
 
 .Navbar_Info_CountDownBar {
     width: 100%;
+    display: flex;
+    align-items: center;
+    /* justify-content: space-around; */
 }
 
 .Navbar_Info_Scores {
     text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    color: rgb(240, 76, 11);
+    display: flex;
+    width: 230px;
+    /* border: 1px solid red; */
+    align-items: center;
+    justify-content: space-between;
 }
 .getHint {
-    margin-top: 30px;
+    /* margin-top: 30px; */
     width: 140px;
     height: 40px;
     font-size: 20px;
@@ -33,4 +60,20 @@
     color: rgb(71, 35, 10);
     font-weight: 700;
     border-radius: 6%;
+}
+
+.timeLeft {
+    font-size: 20px;
+    font-weight: 700;
+    color: orangered;
+    border-radius: 10%;
+}
+
+img {
+    width: 30px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+.basedCurrency {
 }

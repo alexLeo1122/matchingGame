@@ -1,6 +1,7 @@
 :root {
     --squareSize: 70px;
     --white: #ffffff;
+    font-family: roboto;
 }
 
 .Game_Board_Square {
