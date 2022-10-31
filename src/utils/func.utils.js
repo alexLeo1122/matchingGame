@@ -58,3 +58,12 @@ export const creatBarProgress = (barPerCent) => {
     //     return newObj;
     return null;
 };
+
+export const convertNumToMin = (number) => {
+    let min = Math.floor(number / 60);
+    let sec = number - min * 60;
+    if (sec < 10) {
+        sec = `0${sec}`;
+    }
+    return `${min}:${sec}`;
+};

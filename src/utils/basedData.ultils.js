@@ -16,6 +16,16 @@ export const basedCountDownBar = {
 };
 
 export const basedCountDown = 16;
+export const basedtotalCountDown = 720;
+
 export const originalBar = '#7dd01d';
 export const TwoThirdsBar = 'yellow';
 export const oneThirdBar = 'rgb(234 68 13)';
+
+export const basedLives = 4;
+
+export const basedLivesArr = [];
+
+for (let i = 0; i < basedLives; i++) {
+    basedLivesArr.push(i);
+}

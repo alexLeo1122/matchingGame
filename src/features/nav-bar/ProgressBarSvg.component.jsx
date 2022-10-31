@@ -17,10 +17,11 @@ export const ProgressBarSvg = () => {
     useEffect(() => {
         let barPerCent = countDown / basedCountDown;
         setBarProgress(barPerCent);
-        if (barPerCent >= 0.4 && barPerCent < 0.7) {
+        if (barPerCent >= 0.7) {
+            return;
+        } else if (barPerCent >= 0.4 && barPerCent < 0.7) {
             setBarStyles(TwoThirdsBar);
-        }
-        if (barPerCent < 0.4) {
+        } else {
             setBarStyles(oneThirdBar);
         }
     }, [countDown]);

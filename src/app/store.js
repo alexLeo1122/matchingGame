@@ -10,6 +10,9 @@ import gameSolutionsReducer from '../features/game-solutions/game-solutions.slic
 import hintModeReducer from '../features/hint-mode/hint-mode.slice';
 import cardsObjMapReducer from '../features/cardsObjMap/cardsObjMap.slice';
 import countDownReducer from '../features/countDown/count-down.slice';
+import livesReducer from '../features/lives/lives.slice';
+import totalCountDownReducer from '../features/countDown/totalCountDown.slice';
+
 const sagaMiddleWare = createSagaMiddleware();
 
 const persistConfig = {
@@ -25,6 +28,8 @@ export const store = configureStore({
         cardsObjMap: cardsObjMapReducer,
         isHintMode: hintModeReducer,
         countDown: countDownReducer,
+        lives: livesReducer,
+        totalCountDown: totalCountDownReducer,
 
         // taskLists: persistReducer(persistConfig,taskListsReducer),
     },

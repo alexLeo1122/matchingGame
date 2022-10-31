@@ -34,7 +34,7 @@ function App() {
     return (
         <Fragment>
             <div className={styles.GameUI}>
-                <div className={styles.Game_Title}>My Board Game</div>
+                <div className={styles.Game_Title}>Onet Connect Pokemon</div>
                 {/* gameBoard section */}
                 <NavBar />
                 <Board />

@@ -38,6 +38,8 @@ import { selectCardsObjMap, setCardsObjMap } from '../../features/cardsObjMap/ca
 import { scored } from '../../utils/basedData.ultils';
 import { selectCountDown, setDecrement } from '../../features/countDown/count-down.slice';
 import { basedCountDown } from '../../utils/basedData.ultils';
+import { setLivesDecrement } from '../../features/lives/lives.slice';
+import { selectTotalCountDown, setTotalCountDecrement } from '../../features/countDown/totalCountDown.slice';
 export function* runGameWorker() {
     let pendingPaths = [];
     let successPaths = [];
@@ -273,6 +275,19 @@ export function* countDownWorker() {
         yield delay(25);
         yield put(setDecrement(0.025));
         yield put({ type: 'Saga/RunCountDown' });
+    } else {
+        yield put(setLivesDecrement());
+    }
+}
+
+export function* totalCountDownWorker() {
+    const totalCountDown = yield select(selectTotalCountDown);
+    if (totalCountDown > 0) {
+        yield delay(1000);
+        yield put(setTotalCountDecrement());
+        yield put({ type: 'Saga/RunTotalCountDown' });
+    } else {
+        yield put({ type: 'SetGameOver' });
     }
 }
 
@@ -296,6 +311,11 @@ export function* watchGameCountDown() {
     yield takeLatest('Saga/RunCountDown', countDownWorker);
 }
 
+export function* watchTotalCountDown() {
+    yield takeLatest('Saga/RunTotalCountDown', totalCountDownWorker);
+}
+
+//rootSaga
 export default function* rootSaga() {
-    yield all([watchGamePlay(), watchGameCountDown(), watchGameSolution(), watchGameHintMode()]);
+    yield all([watchGamePlay(), watchTotalCountDown(), watchGameCountDown(), watchGameSolution(), watchGameHintMode()]);
 }
