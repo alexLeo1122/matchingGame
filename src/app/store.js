@@ -12,6 +12,8 @@ import cardsObjMapReducer from '../features/cardsObjMap/cardsObjMap.slice';
 import countDownReducer from '../features/countDown/count-down.slice';
 import livesReducer from '../features/lives/lives.slice';
 import totalCountDownReducer from '../features/countDown/totalCountDown.slice';
+import isGameEndReducer from '../features/isGameEnd/isGameEnd.slice';
+import hallOfFameReducer from '../features/hall-of-fame/hall-of-fame.slice';
 
 const sagaMiddleWare = createSagaMiddleware();
 
@@ -27,9 +29,11 @@ export const store = configureStore({
         solutions: gameSolutionsReducer,
         cardsObjMap: cardsObjMapReducer,
         isHintMode: hintModeReducer,
+        isGameEnd: isGameEndReducer,
         countDown: countDownReducer,
         lives: livesReducer,
         totalCountDown: totalCountDownReducer,
+        hallOfFame: hallOfFameReducer,
 
         // taskLists: persistReducer(persistConfig,taskListsReducer),
     },

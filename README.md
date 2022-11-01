@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Add Bonus Label + Making EndGame + HallOfFame
+
 ### Add Timeout?TotalCountDown
 
 ### Made BarProgressSvg Component

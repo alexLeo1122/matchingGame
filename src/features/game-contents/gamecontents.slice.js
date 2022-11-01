@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { basedHintsLeft } from '../../utils/basedData.ultils';
 
 export const gameContentsSlice = createSlice({
     name: 'gameContents',
@@ -12,6 +13,12 @@ export const gameContentsSlice = createSlice({
         },
         scores: {
             value: 0,
+        },
+        bonus: {
+            successHistory: [],
+            bonusActionsLabel: '',
+            value: 0,
+            totalBonus: 0,
         },
     },
     reducers: {
@@ -49,6 +56,19 @@ export const gameContentsSlice = createSlice({
         setScores: (state, { payload }) => {
             state.scores.value += payload;
         },
+        //bonus
+        setSuccessHistory: (state, { payload }) => {
+            if (payload.length <= 4) {
+                state.bonus.successHistory = payload;
+            }
+        },
+        setBonus: (state, { payload }) => {
+            state.bonus.value = payload;
+            state.bonus.totalBonus += payload;
+        },
+        setBonusActionLabel: (state, { payload }) => {
+            state.bonus.bonusActionsLabel = payload;
+        },
     },
 });
 
@@ -61,6 +81,9 @@ export const {
     setResultFailed,
     setResultSucceed,
     setGameContinue,
+    setSuccessHistory,
+    setBonus,
+    setBonusActionLabel,
 } = gameContentsSlice.actions;
 
 //selectors
@@ -71,5 +94,9 @@ export const selectResultPath = (state) => state.gameContents.resultPath;
 export const selectScores = (state) => state.gameContents.scores.value;
 export const selectResultPathStatus = (state) => state.gameContents.resultPath.isSucceed;
 export const selectCardIds = (state) => state.gameContents.cardIds;
+export const selectSuccessHistory = (state) => state.gameContents.bonus.successHistory;
+export const selectBonus = (state) => state.gameContents.bonus.value;
+export const selectBonusActionsLabel = (state) => state.gameContents.bonus.bonusActionsLabel;
+export const selectTotalBonus = (state) => state.gameContents.bonus.totalBonus;
 //export reducer
 export default gameContentsSlice.reducer;

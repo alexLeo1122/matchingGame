@@ -67,3 +67,45 @@ export const convertNumToMin = (number) => {
     }
     return `${min}:${sec}`;
 };
+
+export const filterSuccessArr = (arr, data) => {
+    let newArr = [];
+    if (arr.length >= 4) {
+        newArr = arr.filter((_, index) => index !== 0);
+        newArr.push(data);
+    } else {
+        newArr = [...arr, data];
+    }
+    return newArr;
+};
+
+export const calSuccessBonus = (arr) => {
+    let bonus = [];
+    let length = arr.length;
+    if (length < 2) {
+        return bonus;
+    }
+    //doubleKill
+    if (length >= 2) {
+        if (arr[length - 1] === 20 && arr[length - 2] === 20) {
+            bonus[0] = 'double Catched';
+            bonus[1] = 15;
+        }
+    }
+    if (length >= 3) {
+        if (arr[length - 1] === 20 && arr[length - 2] === 20 && arr[length - 3] === 20) {
+            bonus[0] = 'tripple Catched';
+            bonus[1] = 25;
+        }
+    }
+    if (length >= 4) {
+        if (arr[length - 1] === 20 && arr[length - 2] === 20 && arr[length - 3] === 20 && arr[length - 4] === 20) {
+            bonus[0] = 'Master Catched';
+            bonus[1] = 35;
+        }
+    }
+
+    return bonus; // ["Master",40]
+};
+
+export const createSagaAct = (type) => ({ type });

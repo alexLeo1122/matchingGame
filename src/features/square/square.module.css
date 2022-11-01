@@ -58,7 +58,7 @@ img:hover {
 
 .hinted {
     animation-name: hinted;
-    animation-duration: 0.9s;
+    animation-duration: 0.8s;
 }
 
 @keyframes successPath {
@@ -96,7 +96,7 @@ img:hover {
 
 @keyframes hinted {
     from {
-        border: 30px solid rgb(128, 60, 192);
+        border: 30px solid rgb(171, 122, 218);
     }
     to {
         background-color: rgb(228 199 199 / 85%);

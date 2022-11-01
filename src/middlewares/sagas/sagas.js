@@ -8,6 +8,11 @@ import {
     setBlockedPaths,
     setGameContinue,
     setScores,
+    selectSuccessHistory,
+    setSuccessHistory,
+    setBonus,
+    selectBonusActionsLabel,
+    setBonusActionLabel,
 } from '../../features/game-contents/gamecontents.slice';
 import {
     getBlockedPaths,
@@ -23,7 +28,7 @@ import {
     Game_,
     Game_Board,
 } from '../../utils/shortTestPath';
-import { SquareCons, shuffleArr } from '../../utils/func.utils';
+import { SquareCons, shuffleArr, filterSuccessArr, calSuccessBonus, createSagaAct } from '../../utils/func.utils';
 import { Square_Visibility } from '../../features/square/square.component';
 import {
     selectGameHintPath,
@@ -31,6 +36,7 @@ import {
     setGameHint,
     setGameSolutionsFalse,
     setGameSolutionsTrue,
+    setHintsDecrement,
     setRemainingCardIds,
 } from '../../features/game-solutions/game-solutions.slice';
 import { selectIsHintMode, setIsHintModeFalse, toggleIsHintMode } from '../../features/hint-mode/hint-mode.slice';
@@ -38,8 +44,10 @@ import { selectCardsObjMap, setCardsObjMap } from '../../features/cardsObjMap/ca
 import { scored } from '../../utils/basedData.ultils';
 import { selectCountDown, setDecrement } from '../../features/countDown/count-down.slice';
 import { basedCountDown } from '../../utils/basedData.ultils';
-import { setLivesDecrement } from '../../features/lives/lives.slice';
+import { selectLives, setLivesDecrement } from '../../features/lives/lives.slice';
 import { selectTotalCountDown, setTotalCountDecrement } from '../../features/countDown/totalCountDown.slice';
+import { selectIsGameEnd, setIsGameEnd } from '../../features/isGameEnd/isGameEnd.slice';
+import { createAction } from '@reduxjs/toolkit';
 export function* runGameWorker() {
     let pendingPaths = [];
     let successPaths = [];
@@ -111,17 +119,27 @@ export function* runGameWorker() {
     if (successPaths.length >= 1) {
         const resultPath = findShortestPath(successPaths);
         yield put(setResultSucceed(resultPath));
+        //bonus SuccessHistory
+        const successHistory = yield select(selectSuccessHistory);
         const currentCountDown = yield select(selectCountDown);
         let percentToCheck = currentCountDown / basedCountDown;
+        let scoredStatus;
+
         if (percentToCheck >= 0.7) {
-            yield put(setScores(scored.excellent));
+            scoredStatus = scored.excellent;
         } else if (percentToCheck >= 0.4) {
-            yield put(setScores(scored.success));
+            scoredStatus = scored.success;
         } else if (percentToCheck > 0) {
-            yield put(setScores(scored.moderate));
+            scoredStatus = scored.moderate;
         } else {
-            yield put(setScores(scored.passed));
+            scoredStatus = scored.passed;
         }
+        yield put(setScores(scoredStatus));
+        //set successHistory
+        const newSuccessArr = filterSuccessArr(successHistory, scoredStatus);
+        yield put(setSuccessHistory(newSuccessArr));
+        //yield successHistory Bonus to saga
+        yield put({ type: Saga_Actions.successHistory });
         const cardIdToRemove = cardIds[0];
         const storeCardIds = yield select(selectRemainingCardIds);
         const remainingCardIds = storeCardIds.filter((ele) => ele !== cardIdToRemove);
@@ -261,7 +279,8 @@ export function* solveGameWorker() {
 //togglehintmode worker
 export function* toggleHintModeWorker() {
     // console.log("saga watcher running",store.getState());
-    yield delay(1000);
+    yield put(setHintsDecrement());
+    yield delay(800);
     const storeHint = yield select(selectIsHintMode);
     if (storeHint) {
         yield put(setIsHintModeFalse());
@@ -274,7 +293,7 @@ export function* countDownWorker() {
     if (countDown > 0) {
         yield delay(25);
         yield put(setDecrement(0.025));
-        yield put({ type: 'Saga/RunCountDown' });
+        yield put(createSagaAct(Saga_Actions.runCountDown));
     } else {
         yield put(setLivesDecrement());
     }
@@ -285,37 +304,92 @@ export function* totalCountDownWorker() {
     if (totalCountDown > 0) {
         yield delay(1000);
         yield put(setTotalCountDecrement());
-        yield put({ type: 'Saga/RunTotalCountDown' });
+        yield put(createSagaAct(Saga_Actions.runTotalCountDown));
     } else {
         yield put({ type: 'SetGameOver' });
+    }
+}
+
+export function* successHistoryWorker() {
+    const successHistory = yield select(selectSuccessHistory);
+    const bonusArr = calSuccessBonus(successHistory);
+    console.log({ bonusArr });
+    if (!bonusArr || bonusArr.length < 1) return;
+    const [label, bonus] = bonusArr;
+    yield put(setBonusActionLabel(label));
+    yield put(setBonus(bonus));
+    yield put(setScores(bonus));
+}
+export function* isGameEndWorker() {
+    const isGameEnd = yield select(selectIsGameEnd);
+    // console.log({ isGameEnd });
+    if (isGameEnd === true) return;
+    const lives = yield select(selectLives);
+    console.log({ lives });
+    const totalCountDown = yield select(selectTotalCountDown);
+
+    if (lives <= 0 || totalCountDown <= 0) {
+        // game end
+        yield put(setIsGameEnd(true));
+        return;
+    }
+    if (lives > 0 && totalCountDown > 0) {
+        yield delay(500);
+        yield put(createSagaAct(Saga_Actions.isGameEnd));
+        return;
     }
 }
 
 //saga watcher  run when needs to cal selected paths
 export function* watchGamePlay() {
     // console.log("saga watcher running",store.getState());
-    yield takeEvery('Saga/RunGame', runGameWorker);
+    yield takeEvery(Saga_Actions.runGame, runGameWorker);
 }
 //solve game when map changes
 export function* watchGameSolution() {
     // console.log("saga watcher running",store.getState());
-    yield takeEvery('Saga/SolveGame', solveGameWorker);
+    yield takeEvery(Saga_Actions.solveGame, solveGameWorker);
 }
 //run when user needs hint
 export function* watchGameHintMode() {
     // console.log("saga watcher running",store.getState());
-    yield takeEvery('Saga/toggleHintMode', toggleHintModeWorker);
+    yield takeEvery(Saga_Actions.toggleHintMode, toggleHintModeWorker);
 }
 //run everytime game start/restart
 export function* watchGameCountDown() {
-    yield takeLatest('Saga/RunCountDown', countDownWorker);
+    yield takeLatest(Saga_Actions.runCountDown, countDownWorker);
 }
 
 export function* watchTotalCountDown() {
-    yield takeLatest('Saga/RunTotalCountDown', totalCountDownWorker);
+    yield takeLatest(Saga_Actions.runTotalCountDown, totalCountDownWorker);
+}
+
+export function* watchSuccessHistory() {
+    yield takeEvery(Saga_Actions.successHistory, successHistoryWorker);
+}
+export function* watchIsGameEnd() {
+    yield takeLatest(Saga_Actions.isGameEnd, isGameEndWorker);
 }
 
 //rootSaga
 export default function* rootSaga() {
-    yield all([watchGamePlay(), watchTotalCountDown(), watchGameCountDown(), watchGameSolution(), watchGameHintMode()]);
+    yield all([
+        watchGamePlay(),
+        watchSuccessHistory(),
+        watchTotalCountDown(),
+        watchGameCountDown(),
+        watchGameSolution(),
+        watchGameHintMode(),
+        watchIsGameEnd(),
+    ]);
 }
+
+export const Saga_Actions = {
+    successHistory: 'Saga/Bonus/SuccessHistory',
+    runTotalCountDown: 'Saga/RunTotalCountDown',
+    runCountDown: 'Saga/RunCountDown',
+    toggleHintMode: 'Saga/toggleHintMode',
+    solveGame: 'Saga/SolveGame',
+    runGame: 'Saga/RunGame',
+    isGameEnd: 'Saga/IsGameEnd',
+};

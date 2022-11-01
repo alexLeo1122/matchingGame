@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+}
+.Navbar_Info_Scores {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    color: rgb(240, 76, 11);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+}
+.ScoresWrapper {
+    /* border: 1px solid red; */
+    position: relative;
+    width: 100px;
+    height: 37px;
+    display: flex;
+    justify-content: flex-start;
+}
+.scores {
+    /* position: relative; */
+    /* margin-right: 10px; */
+}
+.currency {
+    /* position: absolute;
+    margin-top: 8px; */
+    color: #e87e17;
+    animation: rotating360Y 3s ease-out infinite;
+}
+@keyframes rotating360Y {
+    100% {
+        transform: rotateY(-360deg);
+    }
+}

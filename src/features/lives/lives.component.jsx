@@ -10,9 +10,9 @@ export const Lives = () => {
             {/* prettier ignores */}
             {basedLivesArr.map((_, index) =>
                 index <= lives - 1 ? (
-                    <HeartIcon sx={{ color: 'red', stroke: 'red' }} />
+                    <HeartIcon sx={{ color: 'red', stroke: 'red' }} key={index} />
                 ) : (
-                    <HeartIcon sx={{ color: 'white', stroke: 'red' }} />
+                    <HeartIcon sx={{ color: 'white', stroke: 'red' }} key={index} />
                 ),
             )}
         </div>

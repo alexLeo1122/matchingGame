@@ -1,0 +1,33 @@
+.Navbar_Info {
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid red; */
+    width: 400px;
+    align-items: center;
+    flex-direction: row;
+    align-items: flex-end;
+}
+
+.Navbar_Info_CountDownBar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    /* border: 1px solid red; */
+    align-items: flex-start;
+    /* justify-content: end; */
+    /* justify-content: space-around; */
+}
+.Navbar_Info_CountDownBar_Time {
+    display: flex;
+    /* border: 1px solid red; */
+    margin-bottom: 10px;
+    align-items: flex-end;
+    justify-content: space-around;
+    font-family: roboto;
+}
+.hourGlass {
+    width: 30px;
+    height: 40px;
+    margin-right: 10px;
+}
