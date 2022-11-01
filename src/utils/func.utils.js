@@ -109,3 +109,5 @@ export const calSuccessBonus = (arr) => {
 };
 
 export const createSagaAct = (type) => ({ type });
+
+export const compareHof = (a, b) => b.score - a.score;

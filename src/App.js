@@ -37,16 +37,21 @@ function App() {
 
     return (
         <div className={styles.GameUI}>
-            {/* title  */}
             <div className={styles.Game_Title}>Onet Connect Pokemon</div>
-            {!isGameEnd && (
-                <>
-                    <NavBar />
-                    <Board />
-                </>
-            )}
-            <HallOfFame />
-            <GameResult />
+            <div className={styles.GameContainer}>
+                {!isGameEnd && (
+                    <>
+                        <div className={styles.Game_Navbar}>
+                            <NavBar />
+                        </div>
+                        <div className={styles.Game_body}>
+                            <Board />
+                            <HallOfFame />
+                        </div>
+                    </>
+                )}
+                <GameResult />
+            </div>
         </div>
     );
 }

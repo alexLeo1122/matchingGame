@@ -10,14 +10,14 @@ export const countDownSlice = createSlice({
         setDecrement: (state, { payload }) => {
             state.value -= payload;
         },
-        setCountDown: (state) => {
+        setCountDownReset: (state) => {
             state.value = basedCountDown;
         },
     },
 });
 
 //action creators
-export const { setDecrement, setCountDown } = countDownSlice.actions;
+export const { setDecrement, setCountDownReset } = countDownSlice.actions;
 
 //selectors
 export const selectCountDown = (state) => state.countDown.value;

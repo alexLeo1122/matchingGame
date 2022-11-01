@@ -25,11 +25,20 @@ export const gameSolutionsSlice = createSlice({
         setHintsDecrement: (state) => {
             state.hintsLeft -= 1;
         },
+        setHintsLeftReset: (state) => {
+            state.hintsLeft = basedHintsLeft;
+        },
     },
 });
 
-export const { setGameSolutionsTrue, setGameHint, setGameSolutionsFalse, setHintsDecrement, setRemainingCardIds } =
-    gameSolutionsSlice.actions;
+export const {
+    setHintsLeftReset,
+    setGameSolutionsTrue,
+    setGameHint,
+    setGameSolutionsFalse,
+    setHintsDecrement,
+    setRemainingCardIds,
+} = gameSolutionsSlice.actions;
 
 export const selectGameSolutionsStatus = (state) => state.solutions.isTrue;
 export const selectHintsLeft = (state) => state.solutions.hintsLeft;

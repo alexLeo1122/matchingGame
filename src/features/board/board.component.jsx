@@ -27,16 +27,14 @@ export const Board = () => {
     }, [openPaths, cardsObjMap]);
 
     return (
-        <Fragment>
-            <div className={styles.Game_Board}>
-                {board.map((square, index) => {
-                    return path && path.includes(index) ? (
-                        <Square key={index} square={square} pathed={true} />
-                    ) : (
-                        <Square key={index} square={square} pathed={false} />
-                    );
-                })}
-            </div>
-        </Fragment>
+        <div className={styles.Game_Board}>
+            {board.map((square, index) => {
+                return path && path.includes(index) ? (
+                    <Square key={index} square={square} pathed={true} />
+                ) : (
+                    <Square key={index} square={square} pathed={false} />
+                );
+            })}
+        </div>
     );
 };

@@ -69,6 +69,9 @@ export const gameContentsSlice = createSlice({
         setBonusActionLabel: (state, { payload }) => {
             state.bonus.bonusActionsLabel = payload;
         },
+        setScoresReset: (state) => {
+            state.scores.value = 0;
+        },
     },
 });
 
@@ -84,6 +87,7 @@ export const {
     setSuccessHistory,
     setBonus,
     setBonusActionLabel,
+    setScoresReset,
 } = gameContentsSlice.actions;
 
 //selectors

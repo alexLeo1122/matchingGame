@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Adding Hall of Fame, Resulting Board, Making Game Restart
+
 ### Add Bonus Label + Making EndGame + HallOfFame
 
 ### Add Timeout?TotalCountDown

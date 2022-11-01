@@ -11,7 +11,7 @@ export const totalCountDownSlice = createSlice({
             state.value -= 1;
         },
         setTotalCountReset: (state) => {
-            state.value -= 1;
+            state.value = basedtotalCountDown;
         },
     },
 });

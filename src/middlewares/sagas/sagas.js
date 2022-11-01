@@ -13,6 +13,7 @@ import {
     setBonus,
     selectBonusActionsLabel,
     setBonusActionLabel,
+    setScoresReset,
 } from '../../features/game-contents/gamecontents.slice';
 import {
     getBlockedPaths,
@@ -27,6 +28,7 @@ import {
     board,
     Game_,
     Game_Board,
+    basedCardsObjMap,
 } from '../../utils/shortTestPath';
 import { SquareCons, shuffleArr, filterSuccessArr, calSuccessBonus, createSagaAct } from '../../utils/func.utils';
 import { Square_Visibility } from '../../features/square/square.component';
@@ -37,15 +39,20 @@ import {
     setGameSolutionsFalse,
     setGameSolutionsTrue,
     setHintsDecrement,
+    setHintsLeftReset,
     setRemainingCardIds,
 } from '../../features/game-solutions/game-solutions.slice';
 import { selectIsHintMode, setIsHintModeFalse, toggleIsHintMode } from '../../features/hint-mode/hint-mode.slice';
 import { selectCardsObjMap, setCardsObjMap } from '../../features/cardsObjMap/cardsObjMap.slice';
 import { scored } from '../../utils/basedData.ultils';
-import { selectCountDown, setDecrement } from '../../features/countDown/count-down.slice';
+import { selectCountDown, setCountDownReset, setDecrement } from '../../features/countDown/count-down.slice';
 import { basedCountDown } from '../../utils/basedData.ultils';
-import { selectLives, setLivesDecrement } from '../../features/lives/lives.slice';
-import { selectTotalCountDown, setTotalCountDecrement } from '../../features/countDown/totalCountDown.slice';
+import { selectLives, setLiveReset, setLivesDecrement } from '../../features/lives/lives.slice';
+import {
+    selectTotalCountDown,
+    setTotalCountDecrement,
+    setTotalCountReset,
+} from '../../features/countDown/totalCountDown.slice';
 import { selectIsGameEnd, setIsGameEnd } from '../../features/isGameEnd/isGameEnd.slice';
 import { createAction } from '@reduxjs/toolkit';
 export function* runGameWorker() {
@@ -329,7 +336,7 @@ export function* isGameEndWorker() {
     const totalCountDown = yield select(selectTotalCountDown);
 
     if (lives <= 0 || totalCountDown <= 0) {
-        // game end
+        // Saga/SetGame end
         yield put(setIsGameEnd(true));
         return;
     }
@@ -339,6 +346,17 @@ export function* isGameEndWorker() {
         return;
     }
 }
+export function* setGameRestartWorker() {
+    yield put(setIsGameEnd(false));
+    yield put(setTotalCountReset());
+    yield put(setLiveReset());
+    yield put(setCountDownReset());
+    yield put(setCardsObjMap(basedCardsObjMap));
+    yield put(setHintsLeftReset());
+    yield put(setScoresReset());
+    yield put(createSagaAct(Saga_Actions.isGameEnd));
+}
+//for next saga worker
 
 //saga watcher  run when needs to cal selected paths
 export function* watchGamePlay() {
@@ -370,6 +388,11 @@ export function* watchSuccessHistory() {
 export function* watchIsGameEnd() {
     yield takeLatest(Saga_Actions.isGameEnd, isGameEndWorker);
 }
+export function* watchSetGameRestart() {
+    yield takeEvery(Saga_Actions.setGameRestart, setGameRestartWorker);
+}
+
+//for next saga watcher
 
 //rootSaga
 export default function* rootSaga() {
@@ -381,6 +404,7 @@ export default function* rootSaga() {
         watchGameSolution(),
         watchGameHintMode(),
         watchIsGameEnd(),
+        watchSetGameRestart(),
     ]);
 }
 
@@ -392,4 +416,5 @@ export const Saga_Actions = {
     solveGame: 'Saga/SolveGame',
     runGame: 'Saga/RunGame',
     isGameEnd: 'Saga/IsGameEnd',
+    setGameRestart: 'Saga/SetGameRestart',
 };
