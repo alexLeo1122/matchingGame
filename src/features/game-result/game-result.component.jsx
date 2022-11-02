@@ -3,11 +3,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectScores } from '../game-contents/gamecontents.slice';
 import { selectHallOfFame, setHallOfFame } from '../hall-of-fame/hall-of-fame.slice';
-import { selectIsGameEnd, setIsGameEnd } from '../isGameEnd/isGameEnd.slice';
+import { selectIsGameEnd } from '../isGameEnd/isGameEnd.slice';
 import { compareHof, createSagaAct } from '../../utils/func.utils';
 import styles from './game-result.module.css';
-import { HallOfFame } from '../hall-of-fame/hall-of-fame.component';
 import { Saga_Actions } from '../../middlewares/sagas/sagas';
+import { HallOfFame } from '../hall-of-fame/hall-of-fame.component';
 
 export const GameResult = () => {
     const dispatch = useDispatch();
@@ -30,6 +30,7 @@ export const GameResult = () => {
         copyArr.pop();
         console.log({ copyArr });
         dispatch(setHallOfFame(copyArr));
+        dispatch(createSagaAct(Saga_Actions.setTopUsersAsync));
     };
 
     useEffect(() => {
@@ -59,9 +60,9 @@ export const GameResult = () => {
                         <div>Congras You are in top 10</div>
                         <input type="text" onChange={onChangeHandler} value={name} />
                         <span>Scores: {score}</span>
-                        <button onClick={hallOfFameHandler}>End</button>
+                        <button onClick={hallOfFameHandler}>Save Result</button>
                         <button onClick={onRestartGame}>Restart</button>
-                        {/* <HallOfFame /> */}
+                        <HallOfFame />
                     </>
                 )}
             </div>

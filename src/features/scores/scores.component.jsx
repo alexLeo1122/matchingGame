@@ -11,7 +11,7 @@ export const Scores = () => {
     const countDown = useSelector(selectCountDown);
     const currentScores = useSelector(selectScores);
     useEffect(() => {
-        if (countDown === 0 || currentScores > 0) {
+        if (countDown <= 0 || currentScores >= 0) {
             dispatch(setCountDownReset());
         }
         dispatch({ type: 'Saga/RunCountDown' });

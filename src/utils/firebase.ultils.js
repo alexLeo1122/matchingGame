@@ -30,3 +30,8 @@ export const getTopUsers = async () => {
     let topUsersDoc = docSnap.data();
     return topUsersDoc.data;
 };
+export async function setTopUsersAsync(dataArr) {
+    await setDoc(doc(userRef, 'topUsers'), {
+        data: dataArr,
+    });
+}

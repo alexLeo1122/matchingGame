@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Updating FB db from App
+
 ### Getting data from FireBase
 
 ### Adding Game Restart, Making UI && Hall Of Fame FireBase cloud

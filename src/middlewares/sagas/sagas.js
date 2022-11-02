@@ -56,8 +56,8 @@ import {
 } from '../../features/countDown/totalCountDown.slice';
 import { selectIsGameEnd, setIsGameEnd } from '../../features/isGameEnd/isGameEnd.slice';
 import { Call } from '@mui/icons-material';
-import { getTopUsers } from '../../utils/firebase.ultils';
-import { setHallOfFame } from '../../features/hall-of-fame/hall-of-fame.slice';
+import { getTopUsers, setTopUsersAsync } from '../../utils/firebase.ultils';
+import { selectHallOfFame, setHallOfFame } from '../../features/hall-of-fame/hall-of-fame.slice';
 export function* runGameWorker() {
     let pendingPaths = [];
     let successPaths = [];
@@ -335,7 +335,6 @@ export function* isGameEndWorker() {
     // console.log({ isGameEnd });
     if (isGameEnd === true) return;
     const lives = yield select(selectLives);
-    console.log({ lives });
     const totalCountDown = yield select(selectTotalCountDown);
 
     if (lives <= 0 || totalCountDown <= 0) {
@@ -376,6 +375,11 @@ export function* getTopUsersAsyncWorker() {
     yield put(setHallOfFame(topUsersData));
 }
 //for next saga worker
+export function* setTopUsersAsyncWorker() {
+    const storedTopUsers = yield select(selectHallOfFame);
+    setTopUsersAsync(storedTopUsers);
+}
+
 //saga watcher  run when needs to cal selected paths
 export function* watchGamePlay() {
     // console.log("saga watcher running",store.getState());
@@ -410,9 +414,12 @@ export function* watchSetGameRestart() {
     yield takeEvery(Saga_Actions.setGameRestart, setGameRestartWorker);
 }
 
-//for next saga watcher
 export function* watchGetTopUserAsync() {
     yield takeLatest(Saga_Actions.getTopUsersAsync, getTopUsersAsyncWorker);
+}
+//for next saga watcher
+export function* watchSetTopUserAsync() {
+    yield takeLatest(Saga_Actions.setTopUsersAsync, setTopUsersAsyncWorker);
 }
 
 //rootSaga
@@ -420,13 +427,14 @@ export default function* rootSaga() {
     yield all([
         watchGamePlay(),
         watchSuccessHistory(),
-        // watchTotalCountDown(),
-        // watchGameCountDown(),
+        watchTotalCountDown(),
+        watchGameCountDown(),
         watchGameSolution(),
         watchGameHintMode(),
-        // watchIsGameEnd(),
+        watchIsGameEnd(),
         watchSetGameRestart(),
         watchGetTopUserAsync(),
+        watchSetTopUserAsync(),
     ]);
 }
 
@@ -441,4 +449,5 @@ export const Saga_Actions = {
     setGameRestart: 'Saga/SetGameRestart',
     getTopUsersAsync: 'Saga/GetTopUsersAsync',
     setTopUsersAsync: 'Saga/SetTopuUsersAsync',
+    // setTopUsersDb: 'Saga/SetTopUsersDb',
 };
