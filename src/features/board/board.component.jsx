@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { basedCardIds, basedCardsObjMap, basedOpenPaths, squareArr } from '../../utils/shortTestPath.js';
+import { basedCardIds, basedCardsObjMap, basedOpenPaths, allSquaresArr } from '../../utils/shortTestPath.js';
 import { selectCardsObjMap, setCardsObjMap } from '../cardsObjMap/cardsObjMap.slice.js';
 import { selectResultPath } from '../game-contents/gamecontents.slice.js';
 import { setRemainingCardIds } from '../game-solutions/game-solutions.slice.js';
@@ -15,7 +15,7 @@ export const Board = () => {
     const openPaths = useSelector(selectOpenPaths);
     const { path } = useSelector(selectResultPath);
     useEffect(() => {
-        dispatch(setBoard(squareArr));
+        dispatch(setBoard(allSquaresArr));
         dispatch(setBasedOpenPath(basedOpenPaths));
         dispatch(setRemainingCardIds(basedCardIds));
         dispatch(setCardsObjMap(basedCardsObjMap));

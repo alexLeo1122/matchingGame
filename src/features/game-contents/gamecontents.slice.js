@@ -72,6 +72,20 @@ export const gameContentsSlice = createSlice({
         setScoresReset: (state) => {
             state.scores.value = 0;
         },
+        setGameContentsReset: (state) => {
+            state.gamePaths = [];
+            state.blockedPaths = [];
+            state.cardIds = [];
+            state.resultPath.path = null;
+            state.resultPath.isSucceed = null;
+            state.scores.value = 0;
+            state.bonus = {
+                successHistory: [],
+                bonusActionsLabel: '',
+                value: 0,
+                totalBonus: 0,
+            };
+        },
     },
 });
 
@@ -88,6 +102,7 @@ export const {
     setBonus,
     setBonusActionLabel,
     setScoresReset,
+    setGameContentsReset,
 } = gameContentsSlice.actions;
 
 //selectors

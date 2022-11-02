@@ -28,6 +28,12 @@ export const gameSolutionsSlice = createSlice({
         setHintsLeftReset: (state) => {
             state.hintsLeft = basedHintsLeft;
         },
+        setGameSolutionsReset: (state) => {
+            state.hint = { path: null, cardId: null };
+            state.isTrue = true;
+            state.hintsLeft = basedHintsLeft;
+            state.remainingCardIds = [];
+        },
     },
 });
 
@@ -38,6 +44,7 @@ export const {
     setGameSolutionsFalse,
     setHintsDecrement,
     setRemainingCardIds,
+    setGameSolutionsReset,
 } = gameSolutionsSlice.actions;
 
 export const selectGameSolutionsStatus = (state) => state.solutions.isTrue;

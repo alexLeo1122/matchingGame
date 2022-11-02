@@ -15,7 +15,7 @@ export const basedCountDownBar = {
     alignItems: 'center',
 };
 
-export const basedCountDown = 7; //sec
+export const basedCountDown = 15; //sec
 export const basedtotalCountDown = 300; //sec
 
 export const originalBar = '#7dd01d';

@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Adding Game Restart, Making UI && Hall Of Fame FireBase cloud
+
 ### Adding Hall of Fame, Resulting Board, Making Game Restart
 
 ### Add Bonus Label + Making EndGame + HallOfFame
@@ -21,3 +23,5 @@
 ### ShortestPath + Selected CSS + HightLight Path
 
 ### Use ReduxSaga for game-computing
+
+### tesing checking

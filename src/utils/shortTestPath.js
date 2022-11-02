@@ -1,8 +1,6 @@
-import { concatArrs } from './func.utils';
 import { SquareCons } from './func.utils';
 import { Square_Visibility } from '../features/square/square.component';
 import { shuffleArr } from './func.utils';
-import { CardObjCons } from './func.utils';
 
 export const Status = {
     Up: 'Up',
@@ -17,13 +15,11 @@ export const getBlockedPaths = (Game_Board, openPaths, selectedPaths = [-1, -1])
     return Game_Board.filter((ele) => !openPaths.includes(ele) && ele !== selectedPaths[0] && ele !== selectedPaths[1]);
 };
 
-export const squareArr = []; // [0...144]
+export const allSquaresArr = []; // [0...144]
 for (let i = 0; i < size; i++) {
     let squareObj = new SquareCons(i, Square_Visibility.viSibleTrue);
-    squareArr.push(squareObj);
+    allSquaresArr.push(squareObj);
 }
-
-let allSqs = [];
 
 export const getAllSqs = () => {
     let allSqs = [];
@@ -96,7 +92,7 @@ remainingSquares.forEach((boardId, index) => {
 });
 
 //size = 144
-
+const myLove = 'sdfas';
 //cardIds Arr
 
 const myObbbj = {

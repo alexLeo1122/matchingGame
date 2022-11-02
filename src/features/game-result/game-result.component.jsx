@@ -36,7 +36,12 @@ export const GameResult = () => {
         if (!isGameEnd) return;
         let length = storedHof.length;
         const minScore = storedHof[length - 1].score;
-        if (score <= minScore) return;
+        if (score <= minScore) {
+            if (isTop) {
+                setIsTop(false);
+            }
+            return;
+        }
         setIsTop(true);
     }, [isGameEnd]);
     return (

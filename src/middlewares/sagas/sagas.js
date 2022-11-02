@@ -1,5 +1,5 @@
-import { all, takeEvery, put, call, select, delay, takeLatest } from '@redux-saga/core/effects';
-import { selectOpenPaths, setNotVisible } from '../../features/board/board.slice';
+import { all, takeEvery, put, select, delay, takeLatest } from '@redux-saga/core/effects';
+import { selectOpenPaths, setBasedOpenPath, setBoard, setNotVisible } from '../../features/board/board.slice';
 import {
     selectGamePaths,
     selectCardIds,
@@ -11,9 +11,9 @@ import {
     selectSuccessHistory,
     setSuccessHistory,
     setBonus,
-    selectBonusActionsLabel,
     setBonusActionLabel,
     setScoresReset,
+    setGameContentsReset,
 } from '../../features/game-contents/gamecontents.slice';
 import {
     getBlockedPaths,
@@ -25,24 +25,25 @@ import {
     nextDown,
     nextLeft,
     nextRight,
-    board,
-    Game_,
     Game_Board,
     basedCardsObjMap,
+    allSquaresArr,
+    basedOpenPaths,
+    basedCardIds,
 } from '../../utils/shortTestPath';
 import { SquareCons, shuffleArr, filterSuccessArr, calSuccessBonus, createSagaAct } from '../../utils/func.utils';
 import { Square_Visibility } from '../../features/square/square.component';
 import {
-    selectGameHintPath,
     selectRemainingCardIds,
     setGameHint,
     setGameSolutionsFalse,
+    setGameSolutionsReset,
     setGameSolutionsTrue,
     setHintsDecrement,
     setHintsLeftReset,
     setRemainingCardIds,
 } from '../../features/game-solutions/game-solutions.slice';
-import { selectIsHintMode, setIsHintModeFalse, toggleIsHintMode } from '../../features/hint-mode/hint-mode.slice';
+import { selectIsHintMode, setIsHintModeFalse } from '../../features/hint-mode/hint-mode.slice';
 import { selectCardsObjMap, setCardsObjMap } from '../../features/cardsObjMap/cardsObjMap.slice';
 import { scored } from '../../utils/basedData.ultils';
 import { selectCountDown, setCountDownReset, setDecrement } from '../../features/countDown/count-down.slice';
@@ -54,7 +55,6 @@ import {
     setTotalCountReset,
 } from '../../features/countDown/totalCountDown.slice';
 import { selectIsGameEnd, setIsGameEnd } from '../../features/isGameEnd/isGameEnd.slice';
-import { createAction } from '@reduxjs/toolkit';
 export function* runGameWorker() {
     let pendingPaths = [];
     let successPaths = [];
@@ -347,13 +347,24 @@ export function* isGameEndWorker() {
     }
 }
 export function* setGameRestartWorker() {
-    yield put(setIsGameEnd(false));
-    yield put(setTotalCountReset());
+    //reset hardData
+    yield put(setGameSolutionsReset());
+    yield put(setGameContentsReset());
     yield put(setLiveReset());
-    yield put(setCountDownReset());
     yield put(setCardsObjMap(basedCardsObjMap));
-    yield put(setHintsLeftReset());
-    yield put(setScoresReset());
+    //run Game UI again
+    yield put(setIsGameEnd(false));
+    //re run
+
+    //initialize
+    //board&&openPath
+    yield put(setBoard(allSquaresArr));
+    yield put(setBasedOpenPath(basedOpenPaths));
+    yield put(setRemainingCardIds(basedCardIds));
+    yield put(setCardsObjMap(basedCardsObjMap));
+    yield put(setTotalCountReset());
+    yield put(setCountDownReset());
+    yield put(createSagaAct(Saga_Actions.runTotalCountDown));
     yield put(createSagaAct(Saga_Actions.isGameEnd));
 }
 //for next saga worker
