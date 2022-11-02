@@ -116,10 +116,13 @@ export const Square = ({ square, pathed }) => {
                 </div>
             ) : (
                 //check if the square belongs to successPath
-                <div
+                <img
+                    src="./icon/pokeball.svg"
                     className={`${styles.visibleFalse} ${styles.Game_Board_Square} ${styles.pathed}`}
                     onClick={runGameLogic}
-                ></div>
+                    alt=""
+                    style={{ width: '70px', height: '70px' }}
+                />
             )}
         </>
     );
