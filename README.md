@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Styling Hall Of Fame, modifying Game Result
+
 ### Updating FB db from App
 
 ### Getting data from FireBase

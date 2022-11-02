@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from './hall-of-fame.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectHallOfFame } from './hall-of-fame.slice';
 import { createSagaAct } from '../../utils/func.utils';
 import { Saga_Actions } from '../../middlewares/sagas/sagas';
+import { TopScore } from '../top-score/top-score.component';
 
 export const HallOfFame = () => {
     const dispatch = useDispatch();
@@ -14,11 +15,10 @@ export const HallOfFame = () => {
     }, []);
     return (
         <div className={styles.HallOfFame_Container}>
-            {hallOf.map((ele, index) => (
-                <div key={index}>
-                    {index + 1}.{ele.name}:::Score:{ele.score}
-                </div>
-            ))}
+            {hallOf.map((ele, index) => {
+                let info = { index, name: ele.name, score: ele.score };
+                return <TopScore key={index} info={info} />;
+            })}
         </div>
     );
 };
