@@ -50,3 +50,16 @@ export const hintStylesClicked = {
     height: '2em',
     color: '#Dfee6a',
 };
+
+export const basedHallOfFameData = [
+    { name: 'Tom2', score: 1250 },
+    { name: 'Tom3', score: 400 },
+    { name: 'Tom4', score: 350 },
+    { name: 'Tom5', score: 300 },
+    { name: 'Tom6', score: 250 },
+    { name: 'Tom7', score: 200 },
+    { name: 'Tom8', score: 150 },
+    { name: 'Tom9', score: 100 },
+    { name: 'Tom1', score: 50 },
+    { name: 'Tom10', score: 20 },
+];

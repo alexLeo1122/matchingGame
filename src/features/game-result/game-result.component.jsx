@@ -59,9 +59,9 @@ export const GameResult = () => {
                         <div>Congras You are in top 10</div>
                         <input type="text" onChange={onChangeHandler} value={name} />
                         <span>Scores: {score}</span>
-                        <button onClick={onRestartGame}>Restart</button>
                         <button onClick={hallOfFameHandler}>End</button>
-                        <HallOfFame />
+                        <button onClick={onRestartGame}>Restart</button>
+                        {/* <HallOfFame /> */}
                     </>
                 )}
             </div>

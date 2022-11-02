@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { basedHallOfFameData } from './hall-of-fame.component';
 export const hallOfFameSlice = createSlice({
     name: 'hallOfFame',
     initialState: {
-        value: basedHallOfFameData,
+        value: [],
     },
     reducers: {
         setHallOfFame: (state, { payload }) => {

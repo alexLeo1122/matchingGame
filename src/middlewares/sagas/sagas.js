@@ -1,4 +1,4 @@
-import { all, takeEvery, put, select, delay, takeLatest } from '@redux-saga/core/effects';
+import { all, takeEvery, put, select, delay, takeLatest, call } from '@redux-saga/core/effects';
 import { selectOpenPaths, setBasedOpenPath, setBoard, setNotVisible } from '../../features/board/board.slice';
 import {
     selectGamePaths,
@@ -55,6 +55,9 @@ import {
     setTotalCountReset,
 } from '../../features/countDown/totalCountDown.slice';
 import { selectIsGameEnd, setIsGameEnd } from '../../features/isGameEnd/isGameEnd.slice';
+import { Call } from '@mui/icons-material';
+import { getTopUsers } from '../../utils/firebase.ultils';
+import { setHallOfFame } from '../../features/hall-of-fame/hall-of-fame.slice';
 export function* runGameWorker() {
     let pendingPaths = [];
     let successPaths = [];
@@ -367,8 +370,12 @@ export function* setGameRestartWorker() {
     yield put(createSagaAct(Saga_Actions.runTotalCountDown));
     yield put(createSagaAct(Saga_Actions.isGameEnd));
 }
-//for next saga worker
 
+export function* getTopUsersAsyncWorker() {
+    const topUsersData = yield call(getTopUsers);
+    yield put(setHallOfFame(topUsersData));
+}
+//for next saga worker
 //saga watcher  run when needs to cal selected paths
 export function* watchGamePlay() {
     // console.log("saga watcher running",store.getState());
@@ -404,18 +411,22 @@ export function* watchSetGameRestart() {
 }
 
 //for next saga watcher
+export function* watchGetTopUserAsync() {
+    yield takeLatest(Saga_Actions.getTopUsersAsync, getTopUsersAsyncWorker);
+}
 
 //rootSaga
 export default function* rootSaga() {
     yield all([
         watchGamePlay(),
         watchSuccessHistory(),
-        watchTotalCountDown(),
-        watchGameCountDown(),
+        // watchTotalCountDown(),
+        // watchGameCountDown(),
         watchGameSolution(),
         watchGameHintMode(),
-        watchIsGameEnd(),
+        // watchIsGameEnd(),
         watchSetGameRestart(),
+        watchGetTopUserAsync(),
     ]);
 }
 
@@ -428,4 +439,6 @@ export const Saga_Actions = {
     runGame: 'Saga/RunGame',
     isGameEnd: 'Saga/IsGameEnd',
     setGameRestart: 'Saga/SetGameRestart',
+    getTopUsersAsync: 'Saga/GetTopUsersAsync',
+    setTopUsersAsync: 'Saga/SetTopuUsersAsync',
 };

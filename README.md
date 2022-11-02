@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Getting data from FireBase
+
 ### Adding Game Restart, Making UI && Hall Of Fame FireBase cloud
 
 ### Adding Hall of Fame, Resulting Board, Making Game Restart
