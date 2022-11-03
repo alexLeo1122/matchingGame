@@ -1,5 +1,7 @@
 # Pikachu-like Matching Game
 
+### Adding LazyType font
+
 ### Add Styling PokeballSVg for Success Path Animation
 
 ### Styling Hall Of Fame, modifying Game Result

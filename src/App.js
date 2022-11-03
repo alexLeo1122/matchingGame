@@ -26,6 +26,7 @@ const App = () => {
                         <div className={styles.Game_Navbar}>
                             <NavBar />
                         </div>
+                        {/* <Divider sx={{ marginBottom: '30px' }} /> */}
                         <div className={styles.Game_body}>
                             <Board />
                             <HallOfFame />

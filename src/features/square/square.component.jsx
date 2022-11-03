@@ -6,25 +6,18 @@ import {
     selectGamePaths,
     selectResultPath,
     selectResultPathStatus,
-    setBlockedPaths,
     setCardIds,
     setGameContinue,
     setGamePaths,
 } from '../game-contents/gamecontents.slice';
-import { Game_Board, getBlockedPaths } from '../../utils/shortTestPath';
 import { useEffect, useState } from 'react';
-import { selectGameHint, selectGameHintPath, selectRemainingCardIds } from '../game-solutions/game-solutions.slice';
+import { selectGameHintPath, selectRemainingCardIds } from '../game-solutions/game-solutions.slice';
 import { selectIsHintMode } from '../hint-mode/hint-mode.slice';
 import { selectCardsObjMap } from '../cardsObjMap/cardsObjMap.slice';
 
 export const Square_Visibility = {
     viSibleTrue: 'visibleTrue',
     viSibleFalse: 'visibleFalse',
-};
-
-const squareInfo = {
-    id: 0,
-    visibility: Square_Visibility.viSibleTrue,
 };
 
 export const Square = ({ square, pathed }) => {
@@ -106,7 +99,7 @@ export const Square = ({ square, pathed }) => {
                             ? `${styles.Game_Board_Square} ${styles.hinted}`
                             : selected && gamePaths.length === 1
                             ? `${styles.Game_Board_Square} ${styles.selected}`
-                            : `${styles.Game_Board_Square}`
+                            : `${styles.Game_Board_Square} ${styles.boarded}`
                     }
                     onClick={runGameLogic}
                 >
