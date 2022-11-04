@@ -30,9 +30,11 @@ export const GameResult = () => {
         let copyArr = [...storedHof, { name: name, score: score }];
         copyArr.sort(compareHof);
         copyArr.pop();
+        console.log({ copyArr });
         dispatch(setHallOfFame(copyArr));
         dispatch(createSagaAct(Saga_Actions.setTopUsersAsync));
-        onRestartGame();
+        setName('Anonymous');
+        dispatch(createSagaAct(Saga_Actions.setGameRestart));
     };
 
     useEffect(() => {
@@ -54,21 +56,27 @@ export const GameResult = () => {
                 {!isTop ? ( //not in top 10
                     <>
                         <div>Congras Your score is: {score}</div>
-                        <Button variant="contained" onClick={onRestartGame}>
+                        <Button
+                            variant="contained"
+                            onClick={onRestartGame}
+                            sx={{ minWidth: '175px', minHeight: '50px', marginTop: '50px', backgroundColor: 'green' }}
+                        >
                             Restart
                         </Button>
                     </>
                 ) : (
                     //in top 10
-                    <>
-                        <div>Congras You are in top 10</div>
-                        <input type="text" onChange={onChangeHandler} value={name} />
-                        <span>Scores: {score}</span>
-                        <Button variant="contained" onClick={hallOfFameHandler}>
-                            Save && Restart
-                        </Button>
+                    <div className={styles.topScores}>
+                        <div className={styles.info}>
+                            <div>Congras You are in top 10</div>
+                            <input type="text" onChange={onChangeHandler} value={name} className={styles.inpField} />
+                            <span>Your Score: {score}</span>
+                            <Button variant="contained" onClick={hallOfFameHandler}>
+                                Save & Restart
+                            </Button>
+                        </div>
                         <HallOfFame />
-                    </>
+                    </div>
                 )}
             </div>
         )

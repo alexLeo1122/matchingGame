@@ -14,6 +14,7 @@ import livesReducer from '../features/lives/lives.slice';
 import totalCountDownReducer from '../features/countDown/totalCountDown.slice';
 import isGameEndReducer from '../features/isGameEnd/isGameEnd.slice';
 import hallOfFameReducer from '../features/hall-of-fame/hall-of-fame.slice';
+import particlesReducer from '../features/particles/background-particles.slice';
 
 const sagaMiddleWare = createSagaMiddleware();
 
@@ -34,7 +35,7 @@ export const store = configureStore({
         lives: livesReducer,
         totalCountDown: totalCountDownReducer,
         hallOfFame: hallOfFameReducer,
-
+        particles: particlesReducer,
         // taskLists: persistReducer(persistConfig,taskListsReducer),
     },
     devTools: process.env.NODE_ENV !== 'production',

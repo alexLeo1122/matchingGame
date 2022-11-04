@@ -5,10 +5,11 @@ import { selectHallOfFame } from './hall-of-fame.slice';
 import { createSagaAct } from '../../utils/func.utils';
 import { Saga_Actions } from '../../middlewares/sagas/sagas';
 import { TopScore } from '../top-score/top-score.component';
+import { selectIsGameEnd } from '../isGameEnd/isGameEnd.slice';
 
 export const HallOfFame = () => {
     const dispatch = useDispatch();
-
+    // const isGameEnd = useSelector(selectIsGameEnd);
     const hallOf = useSelector(selectHallOfFame);
     useEffect(() => {
         dispatch(createSagaAct(Saga_Actions.getTopUsersAsync));

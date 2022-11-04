@@ -7,8 +7,11 @@ import { Saga_Actions } from './middlewares/sagas/sagas';
 import { createSagaAct } from './utils/func.utils';
 import { selectIsGameEnd } from './features/isGameEnd/isGameEnd.slice';
 import { HallOfFame } from './features/hall-of-fame/hall-of-fame.component';
+import { BgParticles, bgParticles } from './features/particles/background-particles.component';
 import styles from './App.module.css';
-
+import Particles from 'react-tsparticles';
+import { useCallback } from 'react';
+import { loadFull } from 'tsparticles';
 const App = () => {
     const dispatch = useDispatch();
     const isGameEnd = useSelector(selectIsGameEnd);
@@ -18,24 +21,28 @@ const App = () => {
     }, []);
 
     return (
-        <div className={styles.GameUI}>
-            <div className={styles.Game_Title}>Onet Connect Pokemon</div>
-            <div className={styles.GameContainer}>
-                {!isGameEnd && (
-                    <>
-                        <div className={styles.Game_Navbar}>
-                            <NavBar />
-                        </div>
-                        {/* <Divider sx={{ marginBottom: '30px' }} /> */}
-                        <div className={styles.Game_body}>
-                            <Board />
-                            <HallOfFame />
-                        </div>
-                    </>
-                )}
-                <GameResult />
+        <>
+            <div className={styles.GameUI}>
+                <div className={styles.Game_Title}>Onet Connect Pokemon</div>
+                <div className={styles.GameContainer}>
+                    {!isGameEnd && (
+                        <>
+                            <div className={styles.Game_Navbar}>
+                                <NavBar />
+                            </div>
+                            {/* <Divider sx={{ marginBottom: '30px' }} /> */}
+                            <div className={styles.Game_body}>
+                                <Board />
+                                <HallOfFame />
+                            </div>
+                        </>
+                    )}
+                    <GameResult />
+                </div>
             </div>
-        </div>
+
+            <BgParticles />
+        </>
     );
 };
 

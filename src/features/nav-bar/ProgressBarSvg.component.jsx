@@ -9,6 +9,10 @@ export const ProgressBarSvg = () => {
     const [barStyles, setBarStyles] = useState(originalBar);
     useEffect(() => {
         let barPerCent = countDown / basedCountDown;
+        if (barPerCent < 0) {
+            setBarProgress(0);
+            return;
+        }
         setBarProgress(barPerCent);
         if (barPerCent >= 0.7) {
             setBarStyles(originalBar);

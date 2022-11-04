@@ -15,14 +15,15 @@ export const basedCountDownBar = {
     alignItems: 'center',
 };
 
-export const basedCountDown = 15; //sec
-export const basedtotalCountDown = 300; //sec
+export const basedCountDown = 20; //sec
+export const basedtotalCountDown = 600; //sec
+export const basedMainParticles = 20;
 
 export const originalBar = '#7dd01d';
 export const TwoThirdsBar = 'yellow';
 export const oneThirdBar = 'rgb(234 68 13)';
 
-export const basedLives = 2;
+export const basedLives = 4;
 
 export const basedLivesArr = [];
 

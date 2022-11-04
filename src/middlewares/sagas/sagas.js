@@ -58,6 +58,7 @@ import { selectIsGameEnd, setIsGameEnd } from '../../features/isGameEnd/isGameEn
 import { Call } from '@mui/icons-material';
 import { getTopUsers, setTopUsersAsync } from '../../utils/firebase.ultils';
 import { selectHallOfFame, setHallOfFame } from '../../features/hall-of-fame/hall-of-fame.slice';
+import { setMainParcIncrement } from '../../features/particles/background-particles.slice';
 export function* runGameWorker() {
     let pendingPaths = [];
     let successPaths = [];
@@ -145,6 +146,7 @@ export function* runGameWorker() {
             scoredStatus = scored.passed;
         }
         yield put(setScores(scoredStatus));
+        yield put(setMainParcIncrement(scoredStatus));
         //set successHistory
         const newSuccessArr = filterSuccessArr(successHistory, scoredStatus);
         yield put(setSuccessHistory(newSuccessArr));
@@ -175,6 +177,10 @@ export function* solveGameWorker() {
     // const storeHint = yield select(selectGameHintPath);
     // if (storeHint){ console.log("nothign to solve"); return;}
     const remainingCardIds = yield select(selectRemainingCardIds);
+    if (remainingCardIds.length < 1) {
+        yield put(setIsGameEnd(true));
+        return;
+    }
     const pathsToCheckArr = [];
     let hint = [];
     const cardsObjMap = yield select(selectCardsObjMap);
@@ -299,17 +305,29 @@ export function* toggleHintModeWorker() {
 
 //countDownWorker
 export function* countDownWorker() {
+    const isGameEnd = yield select(selectIsGameEnd);
+    if (isGameEnd) return;
     let countDown = yield select(selectCountDown);
+    // console.log({ countDown });
     if (countDown > 0) {
         yield delay(25);
         yield put(setDecrement(0.025));
         yield put(createSagaAct(Saga_Actions.runCountDown));
-    } else {
+    } else if (countDown <= 0 && countDown >= -0.025) {
+        yield delay(25);
         yield put(setLivesDecrement());
+        yield put(setDecrement(0.025));
+        yield put(createSagaAct(Saga_Actions.runCountDown));
+    } else {
+        yield delay(25);
+        yield put(setDecrement(0.025));
+        yield put(createSagaAct(Saga_Actions.runCountDown));
     }
 }
 
 export function* totalCountDownWorker() {
+    const isGameEnd = yield select(selectIsGameEnd);
+    if (isGameEnd) return;
     const totalCountDown = yield select(selectTotalCountDown);
     if (totalCountDown > 0) {
         yield delay(1000);
@@ -336,8 +354,8 @@ export function* isGameEndWorker() {
     if (isGameEnd === true) return;
     const lives = yield select(selectLives);
     const totalCountDown = yield select(selectTotalCountDown);
-
-    if (lives <= 0 || totalCountDown <= 0) {
+    const countDown = yield select(selectCountDown);
+    if (lives <= 0 || totalCountDown <= 0 || countDown <= -10) {
         // Saga/SetGame end
         yield put(setIsGameEnd(true));
         return;
@@ -355,7 +373,6 @@ export function* setGameRestartWorker() {
     yield put(setLiveReset());
     yield put(setCardsObjMap(basedCardsObjMap));
     //run Game UI again
-    yield put(setIsGameEnd(false));
     //re run
 
     //initialize
@@ -364,6 +381,7 @@ export function* setGameRestartWorker() {
     yield put(setBasedOpenPath(basedOpenPaths));
     yield put(setRemainingCardIds(basedCardIds));
     yield put(setCardsObjMap(basedCardsObjMap));
+    yield put(setIsGameEnd(false));
     yield put(setTotalCountReset());
     yield put(setCountDownReset());
     yield put(createSagaAct(Saga_Actions.runTotalCountDown));
@@ -419,7 +437,7 @@ export function* watchGetTopUserAsync() {
 }
 //for next saga watcher
 export function* watchSetTopUserAsync() {
-    yield takeLatest(Saga_Actions.setTopUsersAsync, setTopUsersAsyncWorker);
+    yield takeEvery(Saga_Actions.setTopUsersAsync, setTopUsersAsyncWorker);
 }
 
 //rootSaga
