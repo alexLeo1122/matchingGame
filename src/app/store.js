@@ -38,7 +38,7 @@ export const store = configureStore({
         // taskLists: persistReducer(persistConfig,taskListsReducer),
     },
     devTools: process.env.NODE_ENV !== 'production',
-    middleware: [sagaMiddleWare, MyLogger],
+    middleware: [sagaMiddleWare],
 });
 
 // export const persistor = persistStore(store)

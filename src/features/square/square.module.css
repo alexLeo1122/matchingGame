@@ -72,20 +72,20 @@ img:hover {
         opacity: 0.1;
         /* transform: rotateY(270deg); */
     }
-    30% {
+    25% {
         border: 15px solid rgba(194, 112, 112, 0.73);
         border-radius: 50%;
         width: 10px;
         height: 10px;
         /* transform: rotateY(270deg); */
     }
-    60% {
+    50% {
         border: 5px solid rgba(211, 159, 159, 0.73);
         border-radius: 50%;
         width: 40px;
         height: 40px;
         opacity: 1;
-        /* transform: rotateY(270deg); */
+        /* transform: rotateZ(1000deg); */
     }
     80% {
         border: 5px solid rgba(211, 159, 159, 0.73);
@@ -97,7 +97,7 @@ img:hover {
     100% {
         background-color: rgba(223, 209, 209, 0.73);
         border-radius: 50%;
-        transform: rotateZ(1500deg);
+        transform: rotateZ(2000deg);
         opacity: 0.1;
         /* border-radius: 20%; */
     }

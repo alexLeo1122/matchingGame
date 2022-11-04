@@ -1,6 +1,8 @@
 # Pikachu-like Matching Game
 
-### Adding LazyType font
+### Before Adding React-tesParticles
+
+### Adding LazyType font###
 
 ### Add Styling PokeballSVg for Success Path Animation
 
